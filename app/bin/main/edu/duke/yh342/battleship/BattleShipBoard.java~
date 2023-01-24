@@ -1,0 +1,16 @@
+package edu.duke.yh342.battleship;
+
+public class BattleShipBoard {
+  private final int width;
+  public int getWidth() {
+    return width;
+  }
+  private final int height;
+  public int getHeight() {
+    return height;
+  }
+  public BattleShipBoard(int width, int height) {
+    this.width = width;
+    this.height = height;
+  }
+}
