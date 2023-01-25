@@ -43,7 +43,11 @@ public class BoardTextView {
         }
         
       }
-      ans.append("  " + (char)(base + row) + "\n");
+      if (this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) != null && (Character)this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) == 's') {
+        ans.append("s " + (char)(base + row) + "\n");
+      } else {
+        ans.append("  " + (char)(base + row) + "\n");
+      }
     }
     ans.append(header);
     return ans.toString();

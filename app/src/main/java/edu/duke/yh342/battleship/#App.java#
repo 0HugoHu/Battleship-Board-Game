@@ -33,7 +33,7 @@ public class App {
         Placement p = readPlacement("Where would you like to put your ship?");
         BasicShip b = new BasicShip(p.getCoordinate());
         this.theBoard.tryAddShip(b);
-        out.print(this.view.displayMyOwnBoard());
+        out.write(this.view.displayMyOwnBoard());
     }
 
     public static void main(String[] args) throws IOException {
