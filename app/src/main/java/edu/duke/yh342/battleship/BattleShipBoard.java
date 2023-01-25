@@ -1,10 +1,15 @@
 package edu.duke.yh342.battleship;
 
+import java.util.ArrayList;
+
 /**
  * Create a battleship board implements
  */
-public class BattleShipBoard implements Board{
+public class BattleShipBoard<T> implements Board<T>{
   private final int width;
+  private final int height;
+  private final ArrayList<Ship<T>> myShips;
+
   /**
    * Return the width of the board
    * @return the width of the board
@@ -12,7 +17,6 @@ public class BattleShipBoard implements Board{
   public int getWidth() {
     return width;
   }
-  private final int height;
   /**
    * Return the height of the board
    * @return the height of the board
@@ -36,5 +40,26 @@ public class BattleShipBoard implements Board{
     }
     this.width = w;
     this.height = h;
+    this.myShips = new ArrayList<Ship<T>>();
+  }
+
+  public boolean tryAddShip(Ship<T> toAdd) {
+    myShips.add(toAdd);
+    return true;
+  }
+
+  public T whatIsAt(Coordinate where) {
+    if (where.getRow() >= this.height) {
+      throw new IllegalArgumentException("Input coordinate height must in the range but height is " + where.getRow());
+    }
+    if (where.getColumn() >= this.width) {
+      throw new IllegalArgumentException("Input coordinate width must in the range but width is " + where.getColumn());
+    }
+    for (Ship<T> s: myShips) {
+      if (s.occupiesCoordinates(where)){
+        return s.getDisplayInfoAt(where);
+      }
+    }
+    return null;
   }
 }
