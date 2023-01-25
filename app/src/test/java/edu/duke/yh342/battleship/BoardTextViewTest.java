@@ -36,6 +36,16 @@ public class BoardTextViewTest {
     assertEquals(expected, view.displayMyOwnBoard());
   }
 
+  private void nonEmptyBoardHelper(int w, int h, String expectedHeader, String body){
+    Board<Character> b1 = new BattleShipBoard<Character>(w, h);
+    b1.tryAddShip(new BasicShip(new Coordinate(0, 0)));
+    b1.tryAddShip(new BasicShip(new Coordinate(2, 1)));
+    BoardTextView view = new BoardTextView(b1);
+    assertEquals(expectedHeader, view.makeHeader());
+    String expected = expectedHeader + body + expectedHeader;
+    assertEquals(expected, view.displayMyOwnBoard());
+  }
+
   @Test
   public void test_display_empty_3by2() {
     String expectedHeader = new String("  0|1|2\n");
@@ -50,6 +60,11 @@ public class BoardTextViewTest {
     emptyBoardHelper(3, 5, expectedHeader, expectedBody);
   }
 
-  
+  @Test
+  public void test_display_4by3() {
+    String expectedHeader = new String("  0|1|2|3\n");
+    String expectedBody = new String("A s| | |  A\nB  | | |  B\nC  |s| |  C\n");
+    nonEmptyBoardHelper(4, 3, expectedHeader, expectedBody);
+  }
 
 }

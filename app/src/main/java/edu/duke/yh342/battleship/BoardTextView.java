@@ -33,12 +33,17 @@ public class BoardTextView {
     String header = new String(this.makeHeader());
     char base = 'A';
     ans.append(header);
-    for (int i = 0; i < toDisplay.getHeight(); i++) {
-      ans.append((char)(base + i) + " ");
-      for (int j = 0; j < toDisplay.getWidth() - 1; j++) {
-        ans.append(" |");
+    for (int row = 0; row < toDisplay.getHeight(); row++) {
+      ans.append((char)(base + row) + " ");
+      for (int column = 0; column < toDisplay.getWidth() - 1; column++) {
+        if (this.toDisplay.whatIsAt(new Coordinate(row, column)) != null && (Character)this.toDisplay.whatIsAt(new Coordinate(row, column)) == 's') {
+          ans.append("s|");
+        } else {
+          ans.append(" |");
+        }
+        
       }
-      ans.append("  " + (char)(base + i) + "\n");
+      ans.append("  " + (char)(base + row) + "\n");
     }
     ans.append(header);
     return ans.toString();
@@ -54,9 +59,9 @@ public class BoardTextView {
   String makeHeader() {
     StringBuilder ans = new StringBuilder("  "); // README shows two spaces at
     String sep=""; //start with nothing to separate, then switch to | to separate
-    for (int i = 0; i < toDisplay.getWidth(); i++) {
+    for (int column = 0; column < toDisplay.getWidth(); column++) {
       ans.append(sep);
-      ans.append(i);
+      ans.append(column);
       sep = "|";
     }
     ans.append("\n");
