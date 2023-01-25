@@ -24,12 +24,16 @@ public class CoordinateTest {
     Coordinate c2 = new Coordinate(1, 2);
     Coordinate c3 = new Coordinate(1, 3);
     Coordinate c4 = new Coordinate(3, 2);
-    assertEquals(c1, c1);   //equals should be reflexsive
-    assertEquals(c1, c2);   //different objects bu same contents
-    assertNotEquals(c1, c3);  //different contents
+    // Equals should be reflexsive
+    assertEquals(c1, c1);   
+    // Different objects bu same contents
+    assertEquals(c1, c2);   
+    // Different contents
+    assertNotEquals(c1, c3);  
     assertNotEquals(c1, c4);
     assertNotEquals(c3, c4);
-    assertNotEquals(c1, "(1, 2)"); //different types
+    // Different types
+    assertNotEquals(c1, "(1, 2)"); 
   }
 
   @Test

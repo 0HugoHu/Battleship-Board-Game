@@ -24,12 +24,12 @@ public class PlacementTest {
     Placement p4 = new Placement(new Coordinate(10, 20), 'h');
     Placement p5 = new Placement(new Coordinate(9, 21), 'V');
     Placement p6 = new Placement(new Coordinate(20, 10), 'V');
-    assertEquals(p1, p2);   //equals should be reflexsive
-    assertEquals(p1, p3);   //different objects bu same contents
-    assertNotEquals(p1, p4);  //different contents
+    assertEquals(p1, p2);  
+    assertEquals(p1, p3); 
+    assertNotEquals(p1, p4);  
     assertNotEquals(p1, p5);
     assertNotEquals(p1, p6);
-    assertNotEquals(p1, "(10, 20)V"); //different types
+    assertNotEquals(p1, "(10, 20)V"); 
   }
 
   @Test
@@ -63,14 +63,14 @@ public class PlacementTest {
     assertEquals(3, p2.getCoordinate().getRow());
     assertEquals(5, p2.getCoordinate().getColumn());
     assertEquals('H', p2.getOrientation());
-    Placement p3 = new Placement("A9L");
+    Placement p3 = new Placement("A9v");
     assertEquals(0, p3.getCoordinate().getRow());
     assertEquals(9, p3.getCoordinate().getColumn());
-    assertEquals('L', p3.getOrientation());
-    Placement p4 = new Placement("Z0R");
+    assertEquals('V', p3.getOrientation());
+    Placement p4 = new Placement("Z0h");
     assertEquals(25, p4.getCoordinate().getRow());
     assertEquals(0, p4.getCoordinate().getColumn());
-    assertEquals('R', p4.getOrientation());
+    assertEquals('H', p4.getOrientation());
 
   }
   @Test

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class BattleShipBoardTest {
+  
   @Test
   public void test_width_and_height() {
     Board<Character> b1 = new BattleShipBoard<Character>(10, 20);
@@ -20,13 +21,14 @@ public class BattleShipBoardTest {
     assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(-8, 20));
   }
 
-
   @Test
   public void test_add_ship_to_board() {
     Character[][] board_expected = new Character[20][10];
     BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(10, 20);
+    // Should be empty
     assertEquals(null, b1.whatIsAt(new Coordinate(0, 0)));
 
+    // Add four ships
     b1.tryAddShip(new BasicShip(new Coordinate(0, 0)));
     b1.tryAddShip(new BasicShip(new Coordinate(12, 0)));
     b1.tryAddShip(new BasicShip(new Coordinate(0, 5)));
@@ -36,20 +38,17 @@ public class BattleShipBoardTest {
     board_expected[0][5] = 's';
     board_expected[12][0] = 's';
     board_expected[19][9] = 's';
-    checkWhatIsAtBoard(b1, board_expected);
 
+    // Should be same as expected array
+    checkWhatIsAtBoard(b1, board_expected);
   }
   
-
-  @Test
-  public void test_what_is_at() {
-    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(10, 20);
-    Coordinate c1 = new Coordinate(10, 19);
-    Coordinate c2 = new Coordinate(20, 9);
-    assertThrows(IllegalArgumentException.class, () -> b1.whatIsAt(c1));
-    assertThrows(IllegalArgumentException.class, () -> b1.whatIsAt(c2));
-  }
-
+  /**
+   * Check what is at the block
+   * 
+   * @param b game board
+   * @param expected expected placement of the board
+   */
   private <T> void checkWhatIsAtBoard(BattleShipBoard<T> b, T[][] expected) {
     for (int i = 0; i < expected.length; i++) {
       for (int j = 0; j < expected[0].length; j++) {
@@ -62,5 +61,13 @@ public class BattleShipBoardTest {
     }
   }
 
+  @Test
+  public void test_what_is_at() {
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(10, 20);
+    Coordinate c1 = new Coordinate(10, 19);
+    Coordinate c2 = new Coordinate(20, 9);
+    assertThrows(IllegalArgumentException.class, () -> b1.whatIsAt(c1));
+    assertThrows(IllegalArgumentException.class, () -> b1.whatIsAt(c2));
+  }
 
 }

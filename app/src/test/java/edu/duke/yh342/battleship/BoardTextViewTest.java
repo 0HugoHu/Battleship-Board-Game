@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class BoardTextViewTest {
+
   @Test
   public void test_display_empty_2by2() {
     Board<Character> b1 = new BattleShipBoard<Character>(2, 2);
@@ -23,7 +24,6 @@ public class BoardTextViewTest {
   public void test_invalid_board_size() {
     Board<Character> wideBoard = new BattleShipBoard<Character>(11,20);
     Board<Character> tallBoard = new BattleShipBoard<Character>(10,27);
-    //you should write two assertThrows here
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(wideBoard));
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(tallBoard));
   }
