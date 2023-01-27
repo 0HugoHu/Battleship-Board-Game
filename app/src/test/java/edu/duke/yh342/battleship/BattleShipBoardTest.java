@@ -29,10 +29,10 @@ public class BattleShipBoardTest {
     assertEquals(null, b1.whatIsAt(new Coordinate(0, 0)));
 
     // Add four ships
-    b1.tryAddShip(new BasicShip(new Coordinate(0, 0)));
-    b1.tryAddShip(new BasicShip(new Coordinate(12, 0)));
-    b1.tryAddShip(new BasicShip(new Coordinate(0, 5)));
-    b1.tryAddShip(new BasicShip(new Coordinate(19, 9)));
+    b1.tryAddShip(new RectangleShip(new Coordinate(0, 0), 's', '*'));
+    b1.tryAddShip(new RectangleShip(new Coordinate(12, 0), 's', '*'));
+    b1.tryAddShip(new RectangleShip(new Coordinate(0, 5), 's', '*'));
+    b1.tryAddShip(new RectangleShip(new Coordinate(19, 9), 's', '*'));
     
     board_expected[0][0] = 's';
     board_expected[0][5] = 's';

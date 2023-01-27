@@ -53,7 +53,7 @@ public class App {
      */
     public void doOnePlacement() throws IOException {
         Placement p = readPlacement("Where would you like to put your ship?");
-        BasicShip b = new BasicShip(p.getCoordinate());
+        RectangleShip<Character> b = new RectangleShip<Character>(p.getCoordinate(), 's', '*');
         this.theBoard.tryAddShip(b);
         out.print(this.view.displayMyOwnBoard());
     }

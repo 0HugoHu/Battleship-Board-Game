@@ -38,8 +38,8 @@ public class BoardTextViewTest {
 
   private void nonEmptyBoardHelper(int w, int h, String expectedHeader, String body){
     Board<Character> b1 = new BattleShipBoard<Character>(w, h);
-    b1.tryAddShip(new BasicShip(new Coordinate(0, 0)));
-    b1.tryAddShip(new BasicShip(new Coordinate(2, 1)));
+    b1.tryAddShip(new RectangleShip(new Coordinate(0, 0), 's', '*'));
+    b1.tryAddShip(new RectangleShip(new Coordinate(2, 1), 's', '*'));
     BoardTextView view = new BoardTextView(b1);
     assertEquals(expectedHeader, view.makeHeader());
     String expected = expectedHeader + body + expectedHeader;

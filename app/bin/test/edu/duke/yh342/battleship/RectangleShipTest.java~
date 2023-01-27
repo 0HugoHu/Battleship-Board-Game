@@ -1,0 +1,27 @@
+package edu.duke.yh342.battleship;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.HashSet;
+
+import org.junit.jupiter.api.Test;
+
+public class RectangleShipTest {
+  @Test
+  public void test_make_coords() {
+    Coordinate c = new Coordinate(10, 20);
+    assertThrows(IllegalArgumentException.class, () -> new RectangleShip::makeCoords(c, 0 , 1));
+    assertThrows(IllegalArgumentException.class, () -> new RectangleShip::makeCoords(c, 5 , 0));
+
+    HashSet<Coordinate> coord = RectangleShip::makeCoords(c, 1, 3);
+    assertEquals(true, coord.contains(new Coordinate(10, 20)));
+    assertEquals(true, coord.contains(new Coordinate(11, 20)));
+    assertEquals(true, coord.contains(new Coordinate(12, 20)));
+    assertEquals(false, coord.contains(new Coordinate(9, 20)));
+    assertEquals(false, coord.contains(new Coordinate(13, 20)));
+    assertEquals(false, coord.contains(new Coordinate(10, 19)));
+    assertEquals(false, coord.contains(new Coordinate(10, 21)));
+  }
+
+}

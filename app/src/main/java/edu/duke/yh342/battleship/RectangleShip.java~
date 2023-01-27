@@ -1,0 +1,24 @@
+package edu.duke.yh342.battleship;
+
+import java.util.HashSet;
+
+public class RectangleShip {
+    static HashSet<Coordinate> makeCoords(Coordinate upperLeft, int width, int height) {
+        if (width <= 0) {
+            throw new IllegalArgumentException("Ship's occupy space must be at least 1 x 1, but its width is " + width);
+        }
+        if (heighy <= 0) {
+            throw new IllegalArgumentException("Ship's occupy space must be at least 1 x 1, but its height is " + height);
+        }
+
+        HashSet<Coordinate> res = new HashSet<>();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                res.add(new Coordinate(upperLeft.getRow() + i, upperLeft.getColumn() + j));
+            }
+        }
+
+        return res;
+    }
+
+}
