@@ -35,4 +35,42 @@ public class RectangleShipTest {
     assertEquals(false, r.occupiesCoordinates(new Coordinate(10, 19)));
   }
 
+  @Test
+  public void test_hit() {
+    Coordinate c1 = new Coordinate(10, 20);
+    Coordinate c2 = new Coordinate(9, 20);
+    Coordinate c3 = new Coordinate(10, 21);
+    RectangleShip r = new RectangleShip(c1, 1, 1, 's', '*');
+    assertThrows(IllegalArgumentException.class, () -> r.recordHitAt(c2));
+    assertThrows(IllegalArgumentException.class, () -> r.recordHitAt(c3));
+    r.recordHitAt(c1);
+    assertThrows(IllegalArgumentException.class, () -> r.wasHitAt(c2));
+    assertThrows(IllegalArgumentException.class, () -> r.wasHitAt(c3));
+    assertEquals(true, r.wasHitAt(c1));
+  }
+
+  @Test
+  public void test_sunk() {
+    Coordinate c1 = new Coordinate(10, 20);
+    Coordinate c2 = new Coordinate(10, 21);
+    RectangleShip r = new RectangleShip(c1, 2, 1, 's', '*');
+    assertEquals(false, r.isSunk());
+    r.recordHitAt(c1);
+    assertEquals(false, r.isSunk());
+    r.recordHitAt(c2);
+    assertEquals(true, r.isSunk());
+  }
+
+  @Test
+  public void test_display_info() {
+    Coordinate c1 = new Coordinate(10, 20);
+    Coordinate c2 = new Coordinate(10, 21);
+    Coordinate c3 = new Coordinate(11, 21);
+    RectangleShip<Character> r = new RectangleShip<>(c1,2,1 , 's', '*');
+    assertThrows(IllegalArgumentException.class, () -> r.getDisplayInfoAt(c3));
+    r.recordHitAt(c1);
+    assertEquals(r.getDisplayInfoAt(c1), '*');
+    assertEquals(r.getDisplayInfoAt(c2), 's');
+  }
+
 }
