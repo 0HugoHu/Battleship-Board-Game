@@ -74,7 +74,7 @@ class AppTest {
     app.doOnePlacement();
 
     // Should have equal printed board
-    assertEquals(prompt + "\n" + "  0|1|2\nA  | |  A\nB  | |s B\n  0|1|2\n", bytes.toString());
+    assertEquals(prompt + "\n" + "  0|1|2\nA  | |  A\nB  | |d B\n  0|1|2\n", bytes.toString());
   }
 
   /**

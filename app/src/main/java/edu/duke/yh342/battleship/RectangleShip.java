@@ -2,7 +2,30 @@ package edu.duke.yh342.battleship;
 
 import java.util.HashSet;
 
+/**
+ * A rectangular ship implements basic ship interface
+ */
 public class RectangleShip<T> extends BasicShip<T>{
+
+    final String name;
+
+    /**
+     * Return the name of the ship
+     * 
+     * @return the name of the ship
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Make coordinates based on the ship shape and store them in HashSet
+     * 
+     * @param upperLeft start coordinate of the ship
+     * @param width width of the ship
+     * @param height height of the ship
+     * @return HashSet of all coordinates the ship occupies
+     */
     static HashSet<Coordinate> makeCoords(Coordinate upperLeft, int width, int height) {
         if (width <= 0) {
             throw new IllegalArgumentException("Ship's occupy space must be at least 1 x 1, but its width is " + width);
@@ -21,17 +44,44 @@ public class RectangleShip<T> extends BasicShip<T>{
         return res;
     }
 
-    public RectangleShip(Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> shipInfo) {
-        super(makeCoords(upperLeft, width, height), shipInfo);
+     /**
+     * Initialize the rectancle ship with its name, position and display info
+     * 
+     * @param name of the ship
+     * @param upperLeft start position of the ship
+     * @param width width of the ship
+     * @param height height of the ship
+     * @param myDisplayInfo contains the data and onhit representation
+     */
+    public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo) {
+        super(makeCoords(upperLeft, width, height), myDisplayInfo);
+        this.name = name;
     }
 
-    public RectangleShip(Coordinate upperLeft, int width, int height, T data, T onHit) {
-        this(upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+    /**
+     * Initialize the rectancle ship with its name, position and display info
+     * 
+     * @param name of the ship
+     * @param upperLeft start position of the ship
+     * @param width width of the ship
+     * @param height height of the ship
+     * @param data representation on the block
+     * @param onHit hit representation on the block
+     */
+    public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
+        this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
     }
 
+    /**
+     * Initialize the rectancle ship with its name, position and display info with test case
+     * where width and height are both 1 and name is "testship"
+     * 
+     * @param upperLeft start position of the ship
+     * @param data representation on the block
+     * @param onHit hit representation on the block
+     */
     public RectangleShip(Coordinate upperLeft, T data, T onHit) {
-        this(upperLeft, 1, 1, data, onHit);
+        this("testship", upperLeft, 1, 1, data, onHit);
     }
-
 
 }

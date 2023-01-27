@@ -27,7 +27,7 @@ public class Coordinate {
   /**
    * Return coordinate based on row and column
    * 
-   * @param row the height
+   * @param row    the height
    * @param column the width
    * @throws IllegalArgumentException if row or column is smaller than 0
    */
@@ -46,7 +46,8 @@ public class Coordinate {
    * Return coordinate based on the string
    * 
    * @param descr string that refers to a coordinate
-   * @throws IllegalArgumentException if the string is invalid with format. Valid: e.g., "A0"
+   * @throws IllegalArgumentException if the string is invalid with format. Valid:
+   *                                  e.g., "A0"
    */
   public Coordinate(String descr) {
     if (descr.length() != 2) {
@@ -58,14 +59,15 @@ public class Coordinate {
 
     // Check for first char in A - Z
     if (descr.charAt(0) < 'A' || descr.charAt(0) > 'Z') {
-      throw new IllegalArgumentException("Coordinate's first character must be in range A ~ Z but is " + descr.charAt(0));
+      throw new IllegalArgumentException(
+          "Coordinate's first character must be in range A ~ Z but is " + descr.charAt(0));
     }
     this.row = descr.charAt(0) - 'A';
 
     int column = descr.charAt(1) - '0';
     // Check for second char in 0 - 9
     if (column < 0 || column > 9) {
-        throw new IllegalArgumentException("Coordinate's last character must be numerical value but is " + column);
+      throw new IllegalArgumentException("Coordinate's last character must be numerical value but is " + column);
     }
 
     this.column = column;
@@ -94,9 +96,9 @@ public class Coordinate {
    */
   @Override
   public String toString() {
-    return "("+row+", " + column+")";
+    return "(" + row + ", " + column + ")";
   }
-  
+
   /**
    * Return hashcode of the coordinate
    * 

@@ -3,7 +3,7 @@ package edu.duke.yh342.battleship;
 import java.util.*;
 
 /**
- * A basic ship implements ship interface with char type
+ * A basic ship implements ship interface
  */
 public abstract class BasicShip<T> implements Ship<T> {
   protected HashMap<Coordinate, Boolean> myPieces;
@@ -12,17 +12,17 @@ public abstract class BasicShip<T> implements Ship<T> {
   /**
    * Initialize basic ship with coordinate on where
    * 
-   * @param where the coordinate list of the ship
+   * @param where         the coordinate list of the ship
    * @param myDisplayInfo if the coordinate is hit or not
    */
   public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> myDisplayInfo) {
     myPieces = new HashMap<Coordinate, Boolean>();
-    for (Coordinate c: where) {
+    for (Coordinate c : where) {
       myPieces.put(c, false);
     }
     this.myDisplayInfo = myDisplayInfo;
   }
-  
+
   /**
    * Check if this ship occupies the given coordinate.
    * 
@@ -31,11 +31,11 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public boolean occupiesCoordinates(Coordinate where) {
-    // TODO Auto-generated method stub
     Iterator whereIterator = myPieces.entrySet().iterator();
     while (whereIterator.hasNext()) {
-      Map.Entry mapElement = (Map.Entry)whereIterator.next();
-      if (mapElement.getKey().equals(where)) return true;
+      Map.Entry mapElement = (Map.Entry) whereIterator.next();
+      if (mapElement.getKey().equals(where))
+        return true;
     }
     return false;
   }
@@ -48,7 +48,6 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public boolean isSunk() {
-    // TODO Auto-generated method stub
     for (Coordinate c : myPieces.keySet()) {
       if (!myPieces.get(c)) {
         return false;
@@ -66,7 +65,6 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public void recordHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
     checkCoordinateInThisShip(where);
     myPieces.put(where, true);
   }
@@ -83,7 +81,6 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public boolean wasHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
     checkCoordinateInThisShip(where);
     return myPieces.get(where);
   }
@@ -98,12 +95,17 @@ public abstract class BasicShip<T> implements Ship<T> {
    */
   @Override
   public T getDisplayInfoAt(Coordinate where) {
-    //TODO this is not right.  We need to
-    //look up the hit status of this coordinate
+    // look up the hit status of this coordinate
     checkCoordinateInThisShip(where);
     return myDisplayInfo.getInfo(where, wasHitAt(where));
   }
 
+  /**
+   * Check if the coordinate is inside a ship
+   * 
+   * @param c is the coordinate to check
+   * @throws IllegalArgumentException if where is not part of the Ship
+   */
   protected void checkCoordinateInThisShip(Coordinate c) {
     if (!myPieces.containsKey(c)) {
       throw new IllegalArgumentException("The coordinate is not in the range of ship occupies.");

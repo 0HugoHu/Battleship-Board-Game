@@ -18,25 +18,27 @@ public class App {
     final BoardTextView view;
     final BufferedReader inputReader;
     final PrintStream out;
+    final AbstractShipFactory<Character> shipFactory;
 
     /**
      * Initialize App with board, input and output stream
      * 
-     * @param theBoard the game board
+     * @param theBoard    the game board
      * @param inputSource the input source
-     * @param out the output pointer
+     * @param out         the output pointer
      */
     public App(Board<Character> theBoard, Reader inputSource, PrintStream out) {
         this.theBoard = theBoard;
         this.view = new BoardTextView(theBoard);
         this.inputReader = new BufferedReader(inputSource);
         this.out = out;
+        this.shipFactory = new V1ShipFactory();
     }
 
     /**
      * Read placement(s) from the file
      * 
-     * @param prompt the string that consists coordinate and orientation 
+     * @param prompt the string that consists coordinate and orientation
      * @return the placement of that ship
      * @throws IOException if I/O operation fails
      */
@@ -53,8 +55,8 @@ public class App {
      */
     public void doOnePlacement() throws IOException {
         Placement p = readPlacement("Where would you like to put your ship?");
-        RectangleShip<Character> b = new RectangleShip<Character>(p.getCoordinate(), 's', '*');
-        this.theBoard.tryAddShip(b);
+        Ship<Character> s = shipFactory.makeDestroyer(p);
+        this.theBoard.tryAddShip(s);
         out.print(this.view.displayMyOwnBoard());
     }
 

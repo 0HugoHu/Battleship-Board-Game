@@ -42,18 +42,17 @@ public class BoardTextView {
         for (int row = 0; row < toDisplay.getHeight(); row++) {
             ans.append((char) (base + row) + " ");
             for (int column = 0; column < toDisplay.getWidth() - 1; column++) {
-                if (this.toDisplay.whatIsAt(new Coordinate(row, column)) != null
-                        && (Character) this.toDisplay.whatIsAt(new Coordinate(row, column)) == 's') {
-                    ans.append("s|");
+                if (this.toDisplay.whatIsAt(new Coordinate(row, column)) != null) {
+                    ans.append((Character) this.toDisplay.whatIsAt(new Coordinate(row, column)) + "|");
                 } else {
                     ans.append(" |");
                 }
 
             }
             // Append last character in each row
-            if (this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) != null
-                    && (Character) this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) == 's') {
-                ans.append("s " + (char) (base + row) + "\n");
+            if (this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) != null) {
+                ans.append((Character) this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) + " "
+                        + (char) (base + row) + "\n");
             } else {
                 ans.append("  " + (char) (base + row) + "\n");
             }

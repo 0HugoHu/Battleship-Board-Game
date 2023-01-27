@@ -26,7 +26,7 @@ public interface Board<T> {
    * @return true always
    */
   public boolean tryAddShip(Ship<T> toAdd);
-  
+
   /**
    * Return what is at the block
    * 

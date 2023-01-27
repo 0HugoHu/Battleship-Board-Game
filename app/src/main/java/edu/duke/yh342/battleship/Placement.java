@@ -28,7 +28,7 @@ public class Placement {
   /**
    * Set a placement on the board based on coordinate and orientation
    * 
-   * @param where the coordinate of the ship
+   * @param where       the coordinate of the ship
    * @param orientation the orientation of the ship
    * @throws IllegalArgumentException if the orientation is invalid
    */
@@ -37,7 +37,7 @@ public class Placement {
     this.orientation = Character.toUpperCase(orientation);
 
     // Valid for version 1
-    char[] valid = { 'V', 'H'};
+    char[] valid = { 'V', 'H' };
     int i = 0;
     for (; i < 2; i++) {
       if (this.orientation == valid[i])
@@ -76,7 +76,7 @@ public class Placement {
       throw new IllegalArgumentException("Coordinate's last character must be numerical value but is " + column);
     }
     char orientation = descr.charAt(2);
-    char[] valid = { 'V', 'H'};
+    char[] valid = { 'V', 'H' };
     int i = 0;
     for (; i < 2; i++) {
       if (orientation == valid[i])

@@ -65,7 +65,8 @@ public class BattleShipBoard<T> implements Board<T> {
    * 
    * @param where the Coordinate type of position, e.g., (x, y)
    * @return what is at the block in type T
-   * @throws IllegalArgumentException if the given coordinate is beyond the range of baord
+   * @throws IllegalArgumentException if the given coordinate is beyond the range
+   *                                  of baord
    */
   public T whatIsAt(Coordinate where) {
     if (where.getRow() >= this.height) {
