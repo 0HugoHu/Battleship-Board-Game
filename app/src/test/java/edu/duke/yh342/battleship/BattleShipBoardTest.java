@@ -41,6 +41,12 @@ public class BattleShipBoardTest {
 
     // Should be same as expected array
     checkWhatIsAtBoard(b1, board_expected);
+
+    // Check for collision
+    V1ShipFactory v = new V1ShipFactory();
+    Placement p1 = new Placement(new Coordinate(12, 0), 'v');
+    Ship<Character> s1 = v.makeCarrier(p1);
+    assertEquals(false, b1.tryAddShip(s1));
   }
   
   /**

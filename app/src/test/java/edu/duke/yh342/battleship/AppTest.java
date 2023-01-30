@@ -61,7 +61,7 @@ class AppTest {
   @Test
   public void test_do_one_replacement() throws IOException {
     // Given string
-    StringReader sr = new StringReader("B2V\n");
+    StringReader sr = new StringReader("B0H\n");
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(bytes, true);
     // Put a basic ship on (3, 2)
@@ -74,7 +74,7 @@ class AppTest {
     app.doOnePlacement();
 
     // Should have equal printed board
-    assertEquals(prompt + "\n" + "  0|1|2\nA  | |  A\nB  | |d B\n  0|1|2\n", bytes.toString());
+    assertEquals(prompt + "\n" + "  0|1|2\nA  | |  A\nB d|d|d B\n  0|1|2\n", bytes.toString());
   }
 
   /**

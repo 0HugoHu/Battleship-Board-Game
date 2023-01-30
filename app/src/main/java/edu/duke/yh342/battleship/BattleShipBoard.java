@@ -52,19 +52,29 @@ public class BattleShipBoard<T> implements Board<T> {
     this.placementChecker = placementChecker;
   }
 
+  /**
+   * Constructs a BattleShipBoard with the specified width
+   * and height
+   * 
+   * @param w is the width of the newly constructed board.
+   * @param h is the height of the newly constructed board.
+   */
   public BattleShipBoard(int w, int h) {
-    this(w, h, new InBoundsRuleChecker<T>(null));
+    this(w, h, new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<>(null)));
   }
 
   /**
    * Try add a ship to the arraylist
    * 
    * @param toAdd is the ship in type T to be added
-   * @return true always
+   * @return true if current placement can be done
    */
   public boolean tryAddShip(Ship<T> toAdd) {
-    myShips.add(toAdd);
-    return true;
+    if (placementChecker.checkPlacement(toAdd, this)) {
+      myShips.add(toAdd);
+      return true;
+    }
+    return false;
   }
 
   /**
