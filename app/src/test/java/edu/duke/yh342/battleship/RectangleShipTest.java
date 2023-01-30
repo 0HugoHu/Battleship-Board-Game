@@ -80,4 +80,16 @@ public class RectangleShipTest {
     assertEquals(r.getName(), "testship");
   }
 
+  @Test
+  public void test_get_coordinates() {
+    Coordinate c1 = new Coordinate(10, 20);
+    HashSet<Coordinate> hashset = new HashSet<>();
+    hashset.add(c1);
+    hashset.add(new Coordinate(10, 21));
+    RectangleShip<Character> r = new RectangleShip<>("testship", c1, 2, 1 , 's', '*');
+    for (Coordinate c : r.getCoordinates()) {
+      assertEquals(true, hashset.contains(c));
+    }
+  }
+
 }
