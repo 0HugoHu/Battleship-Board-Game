@@ -2,10 +2,11 @@ package edu.duke.yh342.battleship;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.Reader;
-import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.function.Function;
 
 public class TextPlayer {
     final Board<Character> theBoard;
@@ -14,6 +15,8 @@ public class TextPlayer {
     final PrintStream out;
     final AbstractShipFactory<Character> shipFactory;
     String name;
+    final ArrayList<String> shipsToPlace;
+    final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
 
     /**
      * Initialize a player object
@@ -30,6 +33,10 @@ public class TextPlayer {
         this.out = out;
         this.shipFactory = factory;
         this.name = name;
+        this.shipsToPlace = new ArrayList<>();
+        this.shipCreationFns = new HashMap<>();
+        setupShipCreationMap();
+        setupShipCreationList();
     }
 
     /**
@@ -48,11 +55,13 @@ public class TextPlayer {
     /**
      * Do one placement
      *
+     * @param shipName the name of ship
+     * @param createFn an object an apply method that takes a Placement and returns a Ship<Character>
      * @throws IOException if I/O operation fails
      */
-    public void doOnePlacement() throws IOException {
+    public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
         Placement p = readPlacement("Player " + name + " where would you like to put your ship?");
-        Ship<Character> s = shipFactory.makeDestroyer(p);
+        Ship<Character> s = createFn.apply(p);
         this.theBoard.tryAddShip(s);
         out.print(this.view.displayMyOwnBoard());
     }
@@ -74,7 +83,31 @@ public class TextPlayer {
                 "3 \"Battleships\" that are 1x4\n" +
                 "2 \"Carriers\" that are 1x6\n\n";
         out.print(prompt);
-        doOnePlacement();
+        for(int i = 0; i < shipsToPlace.size(); i++){
+            doOnePlacement(shipsToPlace.get(i), shipCreationFns.get(shipsToPlace.get(i)));
+        }
+    }
+
+    /**
+     * Set up Java lambda expressions
+     *
+     */
+    protected void setupShipCreationMap() {
+        shipCreationFns.put("Submarine", (p) -> shipFactory.makeSubmarine(p));
+        shipCreationFns.put("Destroyer", (p) -> shipFactory.makeDestroyer(p));
+        shipCreationFns.put("Battleship", (p) -> shipFactory.makeBattleship(p));
+        shipCreationFns.put("Carrier", (p) -> shipFactory.makeCarrier(p));
+    }
+
+    /**
+     * Add all ships into creation list
+     *
+     */
+    protected void setupShipCreationList() {
+        shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+        shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+        shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
+        shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
     }
 
 }
