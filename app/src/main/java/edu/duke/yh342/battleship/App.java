@@ -14,61 +14,43 @@ import java.io.Reader;
  * write to output (file), and show the prompts and gameplay.
  */
 public class App {
-    final Board<Character> theBoard;
-    final BoardTextView view;
-    final BufferedReader inputReader;
-    final PrintStream out;
-    final AbstractShipFactory<Character> shipFactory;
+    TextPlayer player1;
+    TextPlayer player2;
 
     /**
-     * Initialize App with board, input and output stream
-     * 
-     * @param theBoard    the game board
-     * @param inputSource the input source
-     * @param out         the output pointer
+     * Initialize App with two player objects
+     *
+     * @param player1 the first player
+     * @param player2 the second player
      */
-    public App(Board<Character> theBoard, Reader inputSource, PrintStream out) {
-        this.theBoard = theBoard;
-        this.view = new BoardTextView(theBoard);
-        this.inputReader = new BufferedReader(inputSource);
-        this.out = out;
-        this.shipFactory = new V1ShipFactory();
+    public App(TextPlayer player1, TextPlayer player2) {
+        this.player1 = player1;
+        this.player2 = player2;
     }
 
     /**
-     * Read placement(s) from the file
-     * 
-     * @param prompt the string that consists coordinate and orientation
-     * @return the placement of that ship
-     * @throws IOException if I/O operation fails
+     * Do replacement for each player in one turn
      */
-    public Placement readPlacement(String prompt) throws IOException {
-        this.out.println(prompt);
-        String s = inputReader.readLine();
-        return new Placement(s);
-    }
-
-    /**
-     * Do one placement
-     * 
-     * @throws IOException if I/O operation fails
-     */
-    public void doOnePlacement() throws IOException {
-        Placement p = readPlacement("Where would you like to put your ship?");
-        Ship<Character> s = shipFactory.makeDestroyer(p);
-        this.theBoard.tryAddShip(s);
-        out.print(this.view.displayMyOwnBoard());
+    public void doPlacementPhase() throws IOException {
+        player1.doPlacementPhase();
+        player2.doPlacementPhase();
     }
 
     /**
      * Main Entrance: build the game board, set input and output source,
      * and do one replacement
-     * 
+     *
      * @throws IOException if I/O operation fails
      */
     public static void main(String[] args) throws IOException {
-        Board<Character> b = new BattleShipBoard<Character>(10, 20);
-        App app = new App(b, new InputStreamReader(System.in), System.out);
-        app.doOnePlacement();
+        Board<Character> b1 = new BattleShipBoard<Character>(10, 20);
+        Board<Character> b2 = new BattleShipBoard<Character>(10, 20);
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+        V1ShipFactory factory = new V1ShipFactory();
+        TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
+        TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
+
+        App app = new App(p1, p2);
+        app.doPlacementPhase();
     }
 }

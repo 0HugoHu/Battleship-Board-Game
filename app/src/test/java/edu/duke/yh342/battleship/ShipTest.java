@@ -6,12 +6,11 @@ import org.junit.jupiter.api.Test;
 
 /**
  * TODO
- * 
  */
 public class ShipTest {
-  @Test
-  public void test_() {
+    @Test
+    public void test_() {
 
-  }
+    }
 
 }

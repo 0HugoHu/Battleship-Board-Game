@@ -5,13 +5,13 @@ import java.util.HashSet;
 /**
  * A rectangular ship implements basic ship interface
  */
-public class RectangleShip<T> extends BasicShip<T>{
+public class RectangleShip<T> extends BasicShip<T> {
 
     final String name;
 
     /**
      * Return the name of the ship
-     * 
+     *
      * @return the name of the ship
      */
     public String getName() {
@@ -20,10 +20,10 @@ public class RectangleShip<T> extends BasicShip<T>{
 
     /**
      * Make coordinates based on the ship shape and store them in HashSet
-     * 
+     *
      * @param upperLeft start coordinate of the ship
-     * @param width width of the ship
-     * @param height height of the ship
+     * @param width     width of the ship
+     * @param height    height of the ship
      * @return HashSet of all coordinates the ship occupies
      */
     static HashSet<Coordinate> makeCoords(Coordinate upperLeft, int width, int height) {
@@ -44,13 +44,13 @@ public class RectangleShip<T> extends BasicShip<T>{
         return res;
     }
 
-     /**
+    /**
      * Initialize the rectancle ship with its name, position and display info
-     * 
-     * @param name of the ship
-     * @param upperLeft start position of the ship
-     * @param width width of the ship
-     * @param height height of the ship
+     *
+     * @param name          of the ship
+     * @param upperLeft     start position of the ship
+     * @param width         width of the ship
+     * @param height        height of the ship
      * @param myDisplayInfo contains the data and onhit representation
      */
     public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo) {
@@ -60,13 +60,13 @@ public class RectangleShip<T> extends BasicShip<T>{
 
     /**
      * Initialize the rectancle ship with its name, position and display info
-     * 
-     * @param name of the ship
+     *
+     * @param name      of the ship
      * @param upperLeft start position of the ship
-     * @param width width of the ship
-     * @param height height of the ship
-     * @param data representation on the block
-     * @param onHit hit representation on the block
+     * @param width     width of the ship
+     * @param height    height of the ship
+     * @param data      representation on the block
+     * @param onHit     hit representation on the block
      */
     public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
         this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
@@ -75,10 +75,10 @@ public class RectangleShip<T> extends BasicShip<T>{
     /**
      * Initialize the rectancle ship with its name, position and display info with test case
      * where width and height are both 1 and name is "testship"
-     * 
+     *
      * @param upperLeft start position of the ship
-     * @param data representation on the block
-     * @param onHit hit representation on the block
+     * @param data      representation on the block
+     * @param onHit     hit representation on the block
      */
     public RectangleShip(Coordinate upperLeft, T data, T onHit) {
         this("testship", upperLeft, 1, 1, data, onHit);
