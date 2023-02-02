@@ -67,14 +67,16 @@ public class BattleShipBoard<T> implements Board<T> {
      * Try add a ship to the arraylist
      *
      * @param toAdd is the ship in type T to be added
-     * @return true if current placement can be done
+     * @return null if the placement is correct
+     * or String of the error arised
      */
-    public boolean tryAddShip(Ship<T> toAdd) {
-        if (placementChecker.checkPlacement(toAdd, this)) {
+    public String tryAddShip(Ship<T> toAdd) {
+        String result = placementChecker.checkPlacement(toAdd, this);
+        if (result == null) {
             myShips.add(toAdd);
-            return true;
+            return null;
         }
-        return false;
+        return result;
     }
 
     /**

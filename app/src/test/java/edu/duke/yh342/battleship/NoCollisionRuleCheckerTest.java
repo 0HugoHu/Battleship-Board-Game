@@ -17,12 +17,12 @@ public class NoCollisionRuleCheckerTest {
         NoCollisionRuleChecker<Character> checker = new NoCollisionRuleChecker<>(null);
         BattleShipBoard<Character> b = new BattleShipBoard<>(10, 20, checker);
 
-        assertEquals(checker.checkPlacement(s1, b), true);
+        assertEquals(checker.checkPlacement(s1, b), null);
         b.tryAddShip(s1);
         Ship<Character> s2 = v.makeCarrier(p2);
-        assertEquals(checker.checkPlacement(s2, b), false);
+        assertEquals(checker.checkPlacement(s2, b), "That placement is invalid: the ship overlaps another ship.");
         Ship<Character> s3 = v.makeCarrier(p3);
-        assertEquals(checker.checkPlacement(s3, b), false);
+        assertEquals(checker.checkPlacement(s3, b), "That placement is invalid: the ship overlaps another ship.");
     }
 
     @Test
@@ -37,12 +37,12 @@ public class NoCollisionRuleCheckerTest {
         PlacementRuleChecker<Character> checker = new InBoundsRuleChecker<>(new NoCollisionRuleChecker<>(null));
         BattleShipBoard<Character> b = new BattleShipBoard<>(10, 20, checker);
 
-        assertEquals(checker.checkPlacement(s1, b), true);
+        assertEquals(checker.checkPlacement(s1, b), null);
         b.tryAddShip(s1);
         Ship<Character> s2 = v.makeCarrier(p2);
-        assertEquals(checker.checkPlacement(s2, b), false);
+        assertEquals(checker.checkPlacement(s2, b), "That placement is invalid: the ship overlaps another ship.");
         Ship<Character> s3 = v.makeCarrier(p3);
-        assertEquals(checker.checkPlacement(s3, b), false);
+        assertEquals(checker.checkPlacement(s3, b), "That placement is invalid: the ship overlaps another ship.");
 
     }
 

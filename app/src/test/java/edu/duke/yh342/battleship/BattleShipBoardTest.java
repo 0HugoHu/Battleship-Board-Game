@@ -46,7 +46,7 @@ public class BattleShipBoardTest {
         V1ShipFactory v = new V1ShipFactory();
         Placement p1 = new Placement(new Coordinate(12, 0), 'v');
         Ship<Character> s1 = v.makeCarrier(p1);
-        assertEquals(false, b1.tryAddShip(s1));
+        assertEquals("That placement is invalid: the ship overlaps another ship.", b1.tryAddShip(s1));
     }
 
     /**

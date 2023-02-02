@@ -23,9 +23,10 @@ public interface Board<T> {
      * Try add a ship to the arraylist
      *
      * @param toAdd is the ship in type T to be added
-     * @return true always
+     * @return null if no errors arise
+     * or String of the error
      */
-    public boolean tryAddShip(Ship<T> toAdd);
+    public String tryAddShip(Ship<T> toAdd);
 
     /**
      * Return what is at the block

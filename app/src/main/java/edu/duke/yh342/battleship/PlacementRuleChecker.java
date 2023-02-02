@@ -4,7 +4,7 @@ package edu.duke.yh342.battleship;
  * Abstract class: check in chain for rule sets
  */
 public abstract class PlacementRuleChecker<T> {
-    protected abstract boolean checkMyRule(Ship<T> theShip, Board<T> theBoard);
+    protected abstract String checkMyRule(Ship<T> theShip, Board<T> theBoard);
 
     private final PlacementRuleChecker<T> next;
 
@@ -23,19 +23,20 @@ public abstract class PlacementRuleChecker<T> {
      *
      * @param theShip  consists of ship information
      * @param theBoard consists of board information
-     * @return true if pass the test
+     * @return null if pass the test, Stirng of error otherwise
      */
-    public boolean checkPlacement(Ship<T> theShip, Board<T> theBoard) {
+    public String checkPlacement(Ship<T> theShip, Board<T> theBoard) {
         //if we fail our own rule: stop the placement is not legal
-        if (!checkMyRule(theShip, theBoard)) {
-            return false;
+        String result = checkMyRule(theShip, theBoard);
+        if (result != null) {
+            return result;
         }
         //other wise, ask the rest of the chain.
         if (next != null) {
             return next.checkPlacement(theShip, theBoard);
         }
         //if there are no more rules, then the placement is legal
-        return true;
+        return null;
     }
 
 }

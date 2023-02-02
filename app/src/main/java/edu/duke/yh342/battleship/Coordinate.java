@@ -32,12 +32,12 @@ public class Coordinate {
      * @throws IllegalArgumentException if row or column is smaller than 0
      */
     public Coordinate(int row, int column) {
-        if (row < 0) {
-            throw new IllegalArgumentException("Coordinate's row must be positive but is " + row);
-        }
-        if (column < 0) {
-            throw new IllegalArgumentException("Coordinate's column must be positive but is " + column);
-        }
+//        if (row < 0) {
+//            throw new IllegalArgumentException("Coordinate's row must be positive but is " + row);
+//        }
+//        if (column < 0) {
+//            throw new IllegalArgumentException("Coordinate's column must be positive but is " + column);
+//        }
         this.row = row;
         this.column = column;
     }

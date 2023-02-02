@@ -1,6 +1,7 @@
 package edu.duke.yh342.battleship;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -44,12 +45,21 @@ public class TextPlayer {
      *
      * @param prompt the string that consists coordinate and orientation
      * @return the placement of that ship
-     * @throws IOException if I/O operation fails
+     * @throws IOException if read nothing or error occurs
      */
     public Placement readPlacement(String prompt) throws IOException {
         this.out.println(prompt);
         String s = inputReader.readLine();
-        return new Placement(s);
+        if (s == null) {
+            throw new IOException();
+        }
+        Placement p = null;
+        try {
+            p = new Placement(s);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        return p;
     }
 
     /**
@@ -59,11 +69,17 @@ public class TextPlayer {
      * @param createFn an object an apply method that takes a Placement and returns a Ship<Character>
      * @throws IOException if I/O operation fails
      */
-    public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
+    public boolean doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
         Placement p = readPlacement("Player " + name + " where would you like to put your ship?");
+        // TODO: Should consider while prompts
+
         Ship<Character> s = createFn.apply(p);
-        this.theBoard.tryAddShip(s);
+        String result = this.theBoard.tryAddShip(s);
+        if (result != null) {
+            return false;
+        }
         out.print(this.view.displayMyOwnBoard());
+        return true;
     }
 
     /**
@@ -83,14 +99,13 @@ public class TextPlayer {
                 "3 \"Battleships\" that are 1x4\n" +
                 "2 \"Carriers\" that are 1x6\n\n";
         out.print(prompt);
-        for(int i = 0; i < shipsToPlace.size(); i++){
+        for (int i = 0; i < shipsToPlace.size(); i++) {
             doOnePlacement(shipsToPlace.get(i), shipCreationFns.get(shipsToPlace.get(i)));
         }
     }
 
     /**
      * Set up Java lambda expressions
-     *
      */
     protected void setupShipCreationMap() {
         shipCreationFns.put("Submarine", (p) -> shipFactory.makeSubmarine(p));
@@ -101,7 +116,6 @@ public class TextPlayer {
 
     /**
      * Add all ships into creation list
-     *
      */
     protected void setupShipCreationList() {
         shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));

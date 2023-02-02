@@ -1,7 +1,6 @@
 package edu.duke.yh342.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
@@ -39,12 +38,6 @@ public class TextPlayerTest {
             // Clear out bytes for next time around
             bytes.reset();
         }
-
-        TextPlayer player2 = createTextPlayer("A", 10, 20, "", bytes);
-        TextPlayer player3 = createTextPlayer("A", 10, 20, "BVV", bytes);
-        assertThrows(IOException.class, () -> player2.readPlacement(prompt));
-        Placement p3 = player3.readPlacement(prompt);
-        assertNull(p3);
     }
 
     /**
@@ -58,14 +51,12 @@ public class TextPlayerTest {
         String prompt = "Player A where would you like to put your ship?";
 
         TextPlayer player = createTextPlayer("A", 3, 2, "B0H\n", bytes);
+
         player.doOnePlacement("Destroyer", (p) -> player.shipFactory.makeDestroyer(p));
 
         // Should have equal printed board
         assertEquals(prompt + "\n" + "  0|1|2\nA  | |  A\nB d|d|d B\n  0|1|2\n", bytes.toString());
-
-        TextPlayer player2 = createTextPlayer("A", 3, 2, "B0H\n", bytes);
-        boolean result = player2.doOnePlacement("Carrier", (p) -> player.shipFactory.makeCarrier(p));
-        assertEquals(false, result);
+        assertThrows(IllegalArgumentException.class, player.shipFactory.makeDestroyer(new Placement("B0H")));
     }
 
     @Test
