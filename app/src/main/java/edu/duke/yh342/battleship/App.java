@@ -36,6 +36,28 @@ public class App {
         player2.doPlacementPhase();
     }
 
+
+    /**
+     * Continually play the game until one player loses
+     *
+     * @param enemyBoard the enemy board
+     * @param enemyView  the enemy board view
+     * @param enemyName  the enemy name
+     * @throws IOException if I/O operation fails
+     */
+    public void doAttackingPhase() throws IOException {
+        boolean isGameEnds = false;
+        boolean isPlayer1Turn = true;
+        while (!isGameEnds) {
+            if (isPlayer1Turn) {
+                isGameEnds = player1.playOneTurn(player2.theBoard, player2.view, player2.name);
+            } else {
+                isGameEnds = player2.playOneTurn(player1.theBoard, player1.view, player1.name);
+            }
+            isPlayer1Turn = !isPlayer1Turn;
+        }
+    }
+
     /**
      * Main Entrance: build the game board, set input and output source,
      * and do one replacement
@@ -52,5 +74,6 @@ public class App {
 
         App app = new App(p1, p2);
         app.doPlacementPhase();
+        app.doAttackingPhase();
     }
 }

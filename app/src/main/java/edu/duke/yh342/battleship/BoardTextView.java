@@ -112,8 +112,8 @@ public class BoardTextView {
         StringBuilder boardIntervals = new StringBuilder();
         boardIntervals.append(" ".repeat(16));
 
-        String[] ownViewLines = displayMyOwnBoard().split("\n");
-        String[] otherViewLines = displayEnemyBoard().split("\n");
+        String[] ownViewLines = this.displayMyOwnBoard().split("\n");
+        String[] otherViewLines = enemyView.displayEnemyBoard().split("\n");
 
         for(int i = 0; i < ownViewLines.length; i++){
             if (i == 0 || i == ownViewLines.length - 1){

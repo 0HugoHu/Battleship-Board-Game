@@ -89,6 +89,7 @@ public class TextPlayer {
      */
     public void doPlacementPhase() throws IOException {
         out.print(this.view.displayMyOwnBoard());
+        out.print("\n");
         String prompt = "Player " + name + ": you are going to place the following ships (which are all" +
                 "rectangular). For each ship, type the coordinate of the upper left" +
                 "side of the ship, followed by either H (for horizontal) or V (for" +
@@ -99,9 +100,12 @@ public class TextPlayer {
                 "3 \"Battleships\" that are 1x4\n" +
                 "2 \"Carriers\" that are 1x6\n\n";
         out.print(prompt);
+        out.print("\n");
         for (int i = 0; i < shipsToPlace.size(); i++) {
             doOnePlacement(shipsToPlace.get(i), shipCreationFns.get(shipsToPlace.get(i)));
+            out.print("\n");
         }
+        out.print("----------------------------------------------------------\n\n");
     }
 
     /**
@@ -119,9 +123,9 @@ public class TextPlayer {
      */
     protected void setupShipCreationList() {
         shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
-        shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
-        shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
-        shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
+        // shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+        // shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
+        // shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
     }
 
     /**
@@ -132,5 +136,53 @@ public class TextPlayer {
     public boolean isGameEnds() {
         return this.theBoard.allShipsSunk();
     }
+
+    /**
+     * Read and fire at the enemy board
+     *
+     * @param enemyBoard the enemy board
+     * @param prompt     the prompt
+     * @throws IOException if I/O operation fails
+     */
+    public void readAndFire(Board<Character> enemyBoard) throws IOException {
+        String s = inputReader.readLine();
+        // while (s == null) {
+        //     out.print("Invalid input, please enter a coordinate (e.g., A2V).\n");
+        //     s = inputReader.readLine();
+        // }
+        // try {
+        //     Coordinate c = new Coordinate(s);
+        //     enemyBoard.fireAt(c);
+        // } catch (IllegalArgumentException e) {
+        //     out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
+        // }
+        Coordinate c = new Coordinate(s);
+        enemyBoard.fireAt(c);
+    }
+
+
+    /**
+     * Play one turn of the game
+     *
+     * @param enemyBoard the enemy board
+     * @param enemyView  the enemy board view
+     * @param enemyName  the enemy name
+     * @return true if the game ends
+     * @throws IOException if I/O operation fails
+     */
+    public boolean playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException{
+        out.print("New Turn Begins\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
+        out.print("Player " + name + ", now is your turn to fire:\n");
+        readAndFire(enemyBoard);
+        out.print("After Attack:\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
+        out.print("----------------------------------------------------------\n\n");
+        if (isGameEnds()) {
+            out.print("Player " + this.name + " has lost the game!\n");
+            return true;
+        }
+        return false;
+    }
+
+
 
 }
