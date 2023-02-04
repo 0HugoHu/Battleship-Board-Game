@@ -47,14 +47,15 @@ public class RectangleShip<T> extends BasicShip<T> {
     /**
      * Initialize the rectancle ship with its name, position and display info
      *
-     * @param name          of the ship
-     * @param upperLeft     start position of the ship
-     * @param width         width of the ship
-     * @param height        height of the ship
-     * @param myDisplayInfo contains the data and onhit representation
+     * @param name             of the ship
+     * @param upperLeft        start position of the ship
+     * @param width            width of the ship
+     * @param height           height of the ship
+     * @param myDisplayInfo    contains the data and onhit representation
+     * @param enemyDisplayInfo contains the data and onhit representation
      */
-    public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo) {
-        super(makeCoords(upperLeft, width, height), myDisplayInfo);
+    public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
+        super(makeCoords(upperLeft, width, height), myDisplayInfo, enemyDisplayInfo);
         this.name = name;
     }
 
@@ -69,7 +70,7 @@ public class RectangleShip<T> extends BasicShip<T> {
      * @param onHit     hit representation on the block
      */
     public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
-        this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+        this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit), new SimpleShipDisplayInfo<T>(null, data));
     }
 
     /**

@@ -31,7 +31,7 @@ public class InBoundsRuleCheckerTest {
         Ship<Character> s9 = v.makeCarrier(p9);
 
         PlacementRuleChecker<Character> checker = new InBoundsRuleChecker<>(null);
-        BattleShipBoard<Character> b = new BattleShipBoard<>(10, 20, checker);
+        BattleShipBoard<Character> b = new BattleShipBoard<>(10, 20, checker, 'X');
 
         assertEquals(checker.checkPlacement(s1, b), null);
         assertEquals(checker.checkPlacement(s2, b), "That placement is invalid: the ship goes off the right of the board.");

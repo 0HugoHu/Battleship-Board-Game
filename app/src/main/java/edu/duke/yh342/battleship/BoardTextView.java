@@ -1,5 +1,7 @@
 package edu.duke.yh342.battleship;
 
+import java.util.function.Function;
+
 /**
  * This class handles textual display of
  * a Board (i.e., converting it to a string to show
@@ -31,9 +33,10 @@ public class BoardTextView {
     /**
      * Display current board.
      *
+     * @param getSquareFn is the function to get the character to display
      * @return String of board display
      */
-    public String displayMyOwnBoard() {
+    public String displayAnyBoard(Function<Coordinate, Character> getSquareFn) {
         StringBuilder ans = new StringBuilder();
         String header = new String(this.makeHeader());
         char base = 'A';
@@ -42,16 +45,16 @@ public class BoardTextView {
         for (int row = 0; row < toDisplay.getHeight(); row++) {
             ans.append((char) (base + row) + " ");
             for (int column = 0; column < toDisplay.getWidth() - 1; column++) {
-                if (this.toDisplay.whatIsAt(new Coordinate(row, column)) != null) {
-                    ans.append((Character) this.toDisplay.whatIsAt(new Coordinate(row, column)) + "|");
+                if (getSquareFn.apply(new Coordinate(row, column)) != null) {
+                    ans.append((Character) getSquareFn.apply(new Coordinate(row, column)) + "|");
                 } else {
                     ans.append(" |");
                 }
 
             }
             // Append last character in each row
-            if (this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) != null) {
-                ans.append((Character) this.toDisplay.whatIsAt(new Coordinate(row, toDisplay.getWidth() - 1)) + " "
+            if (getSquareFn.apply(new Coordinate(row, toDisplay.getWidth() - 1)) != null) {
+                ans.append((Character) getSquareFn.apply(new Coordinate(row, toDisplay.getWidth() - 1)) + " "
                         + (char) (base + row) + "\n");
             } else {
                 ans.append("  " + (char) (base + row) + "\n");
@@ -60,6 +63,22 @@ public class BoardTextView {
         ans.append(header);
         return ans.toString();
     }
+
+    /**
+     * Lambda function for displayAnyBoard
+     *
+     * @return String of board display function
+     */
+    public String displayMyOwnBoard() {
+        return displayAnyBoard((c) -> toDisplay.whatIsAtForSelf(c));
+    }
+
+    /**
+     * Lambda function for displayAnyBoard
+     *
+     * @return String of board display function
+     */
+    public String displayEnemyBoard() { return displayAnyBoard((c) -> toDisplay.whatIsAtForEnemy(c)); }
 
     /**
      * This makes the header line, e.g. 0|1|2|3|4\n

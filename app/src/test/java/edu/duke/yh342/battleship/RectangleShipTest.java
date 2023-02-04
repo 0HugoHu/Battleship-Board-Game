@@ -1,6 +1,7 @@
 package edu.duke.yh342.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashSet;
@@ -67,10 +68,12 @@ public class RectangleShipTest {
         Coordinate c2 = new Coordinate(10, 21);
         Coordinate c3 = new Coordinate(11, 21);
         RectangleShip<Character> r = new RectangleShip<>("testship", c1, 2, 1, 's', '*');
-        assertThrows(IllegalArgumentException.class, () -> r.getDisplayInfoAt(c3));
+        assertThrows(IllegalArgumentException.class, () -> r.getDisplayInfoAt(c3, true));
         r.recordHitAt(c1);
-        assertEquals(r.getDisplayInfoAt(c1), '*');
-        assertEquals(r.getDisplayInfoAt(c2), 's');
+        assertEquals(r.getDisplayInfoAt(c1, true), '*');
+        assertEquals(r.getDisplayInfoAt(c2, true), 's');
+        assertEquals(r.getDisplayInfoAt(c1, false), 's');
+        assertNull(r.getDisplayInfoAt(c2, false));
     }
 
     @Test

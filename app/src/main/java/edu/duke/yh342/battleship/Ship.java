@@ -49,10 +49,11 @@ public interface Ship<T> {
      * must be part of the ship.
      *
      * @param where is the coordinate to return information for
+     * @param myShip is to display own perspective
      * @return The view-specific information at that coordinate.
      * @throws IllegalArgumentException if where is not part of the Ship
      */
-    public T getDisplayInfoAt(Coordinate where);
+    public T getDisplayInfoAt(Coordinate where, boolean myShip);
 
     /**
      * Get the name of this Ship, such as "submarine".

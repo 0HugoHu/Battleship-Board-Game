@@ -23,7 +23,7 @@ public class V1ShipFactoryTest {
                            Coordinate... expectedLocs) {
         assertEquals(testShip.getName(), expectedName);
         for (int i = 0; i < expectedLocs.length; i++) {
-            assertEquals(testShip.getDisplayInfoAt(expectedLocs[i]), expectedLetter);
+            assertEquals(testShip.getDisplayInfoAt(expectedLocs[i], true), expectedLetter);
         }
         assertEquals(testShip.getName(), expectedName);
     }

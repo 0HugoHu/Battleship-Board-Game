@@ -641,7 +641,7 @@ public class TextPlayerTest {
     private TextPlayer createTextPlayer(String name, int w, int h, String inputData, OutputStream bytes) {
         BufferedReader input = new BufferedReader(new StringReader(inputData));
         PrintStream output = new PrintStream(bytes, true);
-        Board<Character> board = new BattleShipBoard<Character>(w, h);
+        Board<Character> board = new BattleShipBoard<Character>(w, h, 'X');
         V1ShipFactory shipFactory = new V1ShipFactory();
         return new TextPlayer(name, board, input, output, shipFactory);
     }
