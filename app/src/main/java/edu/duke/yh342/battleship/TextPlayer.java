@@ -124,4 +124,13 @@ public class TextPlayer {
         shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
     }
 
+    /**
+     * Check if the player has lost the game
+     *
+     * @return true if all ships are sunk
+     */
+    public boolean isGameEnds() {
+        return this.theBoard.allShipsSunk();
+    }
+
 }

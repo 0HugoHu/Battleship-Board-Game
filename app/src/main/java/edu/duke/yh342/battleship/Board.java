@@ -52,4 +52,11 @@ public interface Board<T> {
      */
     public Ship<T> fireAt(Coordinate c);
 
+    /**
+     * Check if all ships are sunk
+     *
+     * @return true if all ships are sunk
+     */
+    public boolean allShipsSunk();
+
 }

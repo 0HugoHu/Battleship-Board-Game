@@ -646,5 +646,24 @@ public class TextPlayerTest {
         return new TextPlayer(name, board, input, output, shipFactory);
     }
 
+    @Test
+    public void test_check_game_ends() throws IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        BufferedReader input = new BufferedReader(new StringReader("a0h"));
+        V1ShipFactory shipFactory = new V1ShipFactory();
+        Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
+
+        TextPlayer player1 = new TextPlayer("A", board, input, output, shipFactory);
+
+        player1.doOnePlacement("Submarine", (p) -> player1.shipFactory.makeSubmarine(p));
+        assertEquals(false, player1.isGameEnds());
+
+        board.fireAt(new Coordinate(0, 0));
+        board.fireAt(new Coordinate(0, 1));
+
+        assertEquals(true, player1.isGameEnds());
+    }
+
 
 }
