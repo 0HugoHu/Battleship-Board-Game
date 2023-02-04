@@ -69,9 +69,7 @@ public class BoardTextView {
      *
      * @return String of board display function
      */
-    public String displayMyOwnBoard() {
-        return displayAnyBoard((c) -> toDisplay.whatIsAtForSelf(c));
-    }
+    public String displayMyOwnBoard() { return displayAnyBoard((c) -> toDisplay.whatIsAtForSelf(c)); }
 
     /**
      * Lambda function for displayAnyBoard
@@ -94,6 +92,37 @@ public class BoardTextView {
             sep = "|";
         }
         ans.append("\n");
+        return ans.toString();
+    }
+
+    /**
+     * This displays the board with the enemy's board next to it.
+     *
+     * @param enemyView is the BoardTextView for the enemy's board
+     * @param myHeader is the header for the player's board
+     * @param enemyHeader is the header for the enemy's board
+     * @return the String that is the display of the two boards
+     */
+    public String displayMyBoardWithEnemyNextToIt(BoardTextView enemyView, String myHeader, String enemyHeader) {
+        StringBuilder ans = new StringBuilder();
+        int width = toDisplay.getWidth();
+        String firstLine = " ".repeat(5) + myHeader + " ".repeat(2 * width + 17 - myHeader.length()) + enemyHeader + "\n";
+        ans.append(firstLine);
+
+        StringBuilder boardIntervals = new StringBuilder();
+        boardIntervals.append(" ".repeat(16));
+
+        String[] ownViewLines = displayMyOwnBoard().split("\n");
+        String[] otherViewLines = displayEnemyBoard().split("\n");
+
+        for(int i = 0; i < ownViewLines.length; i++){
+            if (i == 0 || i == ownViewLines.length - 1){
+                ans.append(ownViewLines[i] + boardIntervals + "  " + otherViewLines[i] + "\n");
+                continue;
+            }
+            ans.append(ownViewLines[i] + boardIntervals + otherViewLines[i] + "\n");
+        }
+
         return ans.toString();
     }
 

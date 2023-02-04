@@ -96,6 +96,43 @@ public class BoardTextViewTest {
                 "A s| | | |X A\n" +
                 "  0|1|2|3|4\n";
         assertEquals(view.displayEnemyBoard(), enemyViewUpdated);
+    }
 
+    @Test
+    public void test_my_board_with_enemy_next() {
+        Board<Character> b1 = new BattleShipBoard(4, 2,'X');
+        Board<Character> b2 = new BattleShipBoard(4, 2,'X');
+        V1ShipFactory v = new V1ShipFactory();
+        Ship<Character> s1 = v.makeSubmarine(new Placement(new Coordinate(0, 0), 'h'));
+        Ship<Character> s2 = v.makeDestroyer(new Placement(new Coordinate(1, 1), 'h'));
+        Ship<Character> s3 = v.makeSubmarine(new Placement(new Coordinate(0, 0), 'v'));
+        Ship<Character> s4 = v.makeDestroyer(new Placement(new Coordinate(0, 1), 'h'));
+        b1.tryAddShip(s1);
+        b1.tryAddShip(s2);
+        b2.tryAddShip(s3);
+        b2.tryAddShip(s4);
+
+        BoardTextView ownView = new BoardTextView(b1);
+        BoardTextView enemyView = new BoardTextView(b2);
+
+        String result1 = ownView.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player B's ocean");
+        String result2 = enemyView.displayMyBoardWithEnemyNextToIt(ownView, "Your ocean", "Player A's ocean");
+
+        String expectedView1 = 
+        "     Your ocean               Player B's ocean\n" +
+        "  0|1|2|3                    0|1|2|3\n" + 
+        "A s|s| |  A                A  | | |  A\n"+
+        "B  |d|d|d B                B  | | |  B\n"+
+        "  0|1|2|3                    0|1|2|3\n";
+
+        String expectedView2 = 
+        "     Your ocean               Player A's ocean\n" +
+        "  0|1|2|3                    0|1|2|3\n" + 
+        "A s|d|d|d A                A  | | |  A\n"+
+        "B s| | |  B                B  | | |  B\n"+
+        "  0|1|2|3                    0|1|2|3\n";
+
+        assertEquals("\n" + expectedView1, "\n" + result1);
+        assertEquals("\n" + expectedView2, "\n" + result2);
     }
 }
