@@ -37,15 +37,17 @@ public class Placement {
         this.orientation = Character.toUpperCase(orientation);
 
         // Valid for version 1
-        char[] valid = {'V', 'H'};
+        // char[] valid = {'V', 'H'};
+        // Now updated to version 2
+        char[] valid = {'V', 'H', 'U', 'R', 'D', 'L'};
         int i = 0;
-        for (; i < 2; i++) {
+        for (; i < valid.length; i++) {
             if (this.orientation == valid[i])
                 break;
         }
 
-        if (i == 2) {
-            throw new IllegalArgumentException("Ship's orientation must be one of 'V', 'H', but is " + orientation);
+        if (i == valid.length) {
+            throw new IllegalArgumentException("Ship's orientation must be one of 'V', 'H', 'U', 'R', 'D', 'L' but is " + orientation);
         }
     }
 
@@ -76,13 +78,15 @@ public class Placement {
             throw new IllegalArgumentException("Coordinate's last character must be numerical value but is " + column);
         }
         char orientation = descr.charAt(2);
-        char[] valid = {'V', 'H'};
+        // char[] valid = {'V', 'H'};
+        // Now updated to version 2
+        char[] valid = {'V', 'H', 'U', 'R', 'D', 'L'};
         int i = 0;
-        for (; i < 2; i++) {
+        for (; i < valid.length; i++) {
             if (orientation == valid[i])
                 break;
         }
-        if (i == 2) {
+        if (i == valid.length) {
             throw new IllegalArgumentException("Ship's orientation must be one of 'V', 'H', but is " + orientation);
         }
 

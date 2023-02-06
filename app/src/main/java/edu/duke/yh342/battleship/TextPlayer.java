@@ -20,7 +20,7 @@ public class TextPlayer {
     final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
 
     /**
-     * Initialize a player object
+     * Initialize a player object on version 1 configuration
      *
      * @param name        the name of the player
      * @param theBoard    the game board
@@ -28,6 +28,27 @@ public class TextPlayer {
      * @param out         the output pointer
      */
     public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out, V1ShipFactory factory) {
+        this.theBoard = theBoard;
+        this.view = new BoardTextView(theBoard);
+        this.inputReader = inputSource;
+        this.out = out;
+        this.shipFactory = factory;
+        this.name = name;
+        this.shipsToPlace = new ArrayList<>();
+        this.shipCreationFns = new HashMap<>();
+        setupShipCreationMap();
+        setupShipCreationList();
+    }
+
+    /**
+     * Initialize a player object on version 2 configuration
+     *
+     * @param name        the name of the player
+     * @param theBoard    the game board
+     * @param inputSource the input source
+     * @param out         the output pointer
+     */
+    public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out, V2ShipFactory factory) {
         this.theBoard = theBoard;
         this.view = new BoardTextView(theBoard);
         this.inputReader = inputSource;
@@ -59,6 +80,7 @@ public class TextPlayer {
         } catch (IllegalArgumentException e) {
             return null;
         }
+        
         return p;
     }
 
@@ -71,13 +93,17 @@ public class TextPlayer {
      */
     public boolean doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
         Placement p = readPlacement("Player " + name + " where would you like to put your ship?");
-        // TODO: Should consider while prompts
-
+        // TODO: Don't know how to test this structure
+        // while (p == null) {
+        //     out.print("\nInvalid placement. Try again.\n");
+        //     p = readPlacement("Player " + name + " where would you like to put your ship?");
+        // }
         Ship<Character> s = createFn.apply(p);
         String result = this.theBoard.tryAddShip(s);
-        if (result != null) {
-            return false;
-        }
+        // while (result != null) {
+        //     out.print("\nInvalid placement. Try again.\n");
+        //     doOnePlacement(shipName, createFn);
+        // }
         out.print(this.view.displayMyOwnBoard());
         return true;
     }
@@ -122,10 +148,10 @@ public class TextPlayer {
      * Add all ships into creation list
      */
     protected void setupShipCreationList() {
-        shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+        // shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
         // shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
-        // shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
-        // shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
+        shipsToPlace.addAll(Collections.nCopies(1, "Battleship"));
+        shipsToPlace.addAll(Collections.nCopies(1, "Carrier"));
     }
 
     /**
@@ -157,7 +183,13 @@ public class TextPlayer {
         //     out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
         // }
         Coordinate c = new Coordinate(s);
-        enemyBoard.fireAt(c);
+        Ship<Character> ship = enemyBoard.fireAt(c);
+        if (ship == null) {
+            out.print("\nYou missed!\n\n");
+        } 
+        else {
+            out.print("\nYou hit a " + ship.getName() + "!\n\n");
+        }
     }
 
 
