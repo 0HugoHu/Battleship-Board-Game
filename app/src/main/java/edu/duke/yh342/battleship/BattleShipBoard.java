@@ -2,6 +2,7 @@ package edu.duke.yh342.battleship;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.HashMap;
 
 /**
  * Create a battleship board implements
@@ -12,6 +13,10 @@ public class BattleShipBoard<T> implements Board<T> {
     private final ArrayList<Ship<T>> myShips;
     private final PlacementRuleChecker<T> placementChecker;
     HashSet<Coordinate> enemyMisses;
+    // Coordiantes that are hit but after move, not shown to enemy
+    HashSet<Coordinate> notShownPieces;
+    // Coordinates that are hit by enemy, even moved, but still shown to enemy
+    HashMap<Coordinate, T> enemyHits;
     final T missInfo;
 
     /**
@@ -54,6 +59,8 @@ public class BattleShipBoard<T> implements Board<T> {
         this.myShips = new ArrayList<Ship<T>>();
         this.placementChecker = placementChecker;
         this.enemyMisses = new HashSet<>();
+        this.notShownPieces = new HashSet<>();
+        this.enemyHits = new HashMap<>();
         this.missInfo = missInfo;
     }
 
@@ -116,9 +123,16 @@ public class BattleShipBoard<T> implements Board<T> {
             if(enemyMisses.contains(where)){
                 return missInfo;
             }
+            if (enemyHits.containsKey(where)){
+                return enemyHits.get(where);
+            }
+            if (notShownPieces.contains(where)){
+                return null;
+            }
         }
         for (Ship<T> s: myShips) {
             if (s.occupiesCoordinates(where)){
+                // System.out.print(where.toString() + "\n");
                 return s.getDisplayInfoAt(where, isSelf);
             }
         }
@@ -142,8 +156,12 @@ public class BattleShipBoard<T> implements Board<T> {
      * @return the ship that has been fired
      */
     public Ship<T> fireAt(Coordinate c) {
+        if (notShownPieces.contains(c)) {
+            this.notShownPieces.remove(c);
+        }
         for (Ship<T> s : myShips) {
             if (s.occupiesCoordinates(c) && !s.wasHitAt(c)) {
+                this.enemyHits.put(c, s.getDisplayInfoAt(c, true));
                 s.recordHitAt(c);
                 return s;
             }
@@ -164,5 +182,290 @@ public class BattleShipBoard<T> implements Board<T> {
             }
         }
         return true;
+    }
+
+    /**
+     * Return the ship at the coordinate
+     *
+     * @param where the coordinate to be checked
+     * @return the ship at the coordinate
+     */
+    public Ship<T> getShipAt(Coordinate where) {
+        for (Ship<T> s : myShips) {
+            if (s.occupiesCoordinates(where)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Move a ship to a new coordinate
+     *
+     * @param toMove the ship to be moved
+     * @param to     the new placement
+     * @param ownBoard the board to be moved to
+     * @return true if the ship is moved
+     */
+    public boolean moveShipTo(Ship<T> toMove, Placement to, Board<T> ownBoard) {
+        // Traverse the ship coordinate to find the top left coordinate
+        V2ShipFactory shipFactory = new V2ShipFactory();
+        Ship<Character> s = null;
+        if (toMove.getName().equals("Battleship")) {
+            s = shipFactory.makeBattleship(to);
+        } else if (toMove.getName().equals("Carrier")) {
+            s = shipFactory.makeCarrier(to);
+        } else if (toMove.getName().equals("Destroyer")) {
+            s = shipFactory.makeDestroyer(to);
+        } else {
+            s = shipFactory.makeSubmarine(to);
+        }
+
+        // Backup
+        Ship<T> backup = toMove;
+        // Now add hit points to the ship
+        transferHitPoints(toMove, s);
+
+        toMove.removeCoordinate();
+
+        // Remove the original ship
+        ownBoard.removeShip(toMove);
+
+        for (Coordinate c : s.getCoordinates()) {
+            toMove.addCoordinate(c, s.wasHitAt(c));
+        }
+
+        // Check for valid placement
+
+        String result = ownBoard.tryAddShip(toMove);
+        if (result == null) {
+            return true;
+        }
+        
+        toMove = backup;
+        return false;
+    }
+
+
+     /**
+     * Transfer hit points from one ship to another
+     *
+     * @param from the ship to transfer hit points from
+     * @param to   the ship to transfer hit points to
+     */
+    public void transferHitPoints(Ship<T> from, Ship<Character> to) {
+        // Find the top left coordinate of old ship
+        int baseOldCol = Integer.MAX_VALUE;
+        int baseOldRow = Integer.MAX_VALUE;
+        for (Coordinate c : from.getCoordinates()) {
+            if (c.getColumn() < baseOldCol) {
+                baseOldCol = c.getColumn();
+            }
+            if (c.getRow() < baseOldRow) {
+                baseOldRow = c.getRow();
+            }
+        }
+        // Find the top left coordinate of new ship
+        int baseNewCol = Integer.MAX_VALUE;
+        int baseNewRow = Integer.MAX_VALUE;
+        for (Coordinate c : to.getCoordinates()) {
+            if (c.getColumn() < baseNewCol) {
+                baseNewCol = c.getColumn();
+            }
+            if (c.getRow() < baseNewRow) {
+                baseNewRow = c.getRow();
+            }
+        }
+
+        Character oldOrient = from.getOrientation();
+        Character newOrient = to.getOrientation();
+
+        for (Coordinate oldCoord : from.getCoordinates()) {
+            if (from.wasHitAt(oldCoord)) {
+                int col = oldCoord.getColumn() - baseOldCol;
+                int row = oldCoord.getRow() - baseOldRow;
+                // Transfer this coordinate
+                Coordinate newHitPoint = new Coordinate(0, 0);
+                
+                // Exactly the same orientation
+                if (oldOrient == newOrient){
+                    newHitPoint = oldCoord;
+                }
+                // Basic H and V orientations
+                /*
+                 *  From: *** To: *
+                 *                *
+                 *                *
+                 */
+                else if (oldOrient == 'H') {
+                    // Then new ship's orientation must be V
+                    newHitPoint = new Coordinate(baseNewRow + col, baseNewCol);
+                }
+                /*
+                 *  From: *  To: ***
+                 *        *          
+                 *        *        
+                 */
+                else if (oldOrient == 'V') {
+                    newHitPoint = new Coordinate(baseNewRow, baseNewCol + row);
+                }
+                // Orientation of Battleship
+                else if (from.getName() == "Battleship") {
+                    if (oldOrient == 'U') {
+                        if (newOrient == 'R' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
+                        } else if (newOrient == 'D' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol + 2);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 2, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
+                        }
+                        
+                    } else if (oldOrient == 'R') {
+                        if (newOrient == 'D' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 2);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
+                        } else if (newOrient == 'L' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 2, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() + col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
+                        }
+                    } else if (oldOrient == 'D') {
+                        if (newOrient == 'L' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() + row);
+                        } else if (newOrient == 'U' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol + 2);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 2, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                        }
+                    } else {
+                        if (newOrient == 'U' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 2);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() + row);
+                        } else if (newOrient == 'R' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 2, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                        }
+                    }
+                    // Orientation of Carrier
+                } else {
+                    if (oldOrient == 'U') {
+                        if (newOrient == 'R' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 4);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
+                        } else if (newOrient == 'D' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 4, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                        }
+                    } else if (oldOrient == 'R') {
+                        if (newOrient == 'D' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
+                        } else if (newOrient == 'L' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol + 4);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 4, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                        }
+                    } else if (oldOrient == 'D') {
+                        if (newOrient == 'L' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 4);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
+                        } else if (newOrient == 'U' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 4, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                        }
+                    } else {
+                        if (newOrient == 'U' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 1);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn());
+                        } else if (newOrient == 'R' ) {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol + 4);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
+                        } else {
+                            Coordinate newPivot = new Coordinate(baseNewRow + 4, baseNewCol);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                        }
+                    }
+                }
+                to.addCoordinate(newHitPoint, true);
+                this.notShownPieces.add(newHitPoint);
+            }
+        }
+    }
+
+    /**
+     * Remove a ship from the board
+     *
+     * @param toRemove the ship to be removed
+     */
+    public void removeShip(Ship<T> toRemove) {
+        myShips.remove(toRemove);
+    }
+
+    /**
+     * Get the number of tiles the enemy ship occupies on the board
+     *
+     * @param c the coordinate to scan
+     * @param enemyBoard the enemy board
+     * @return the number of ships on the board
+     */
+    public int[] sonarScan(Coordinate c, Board<Character> enemyBoard) {
+        int[] result = new int[4];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = 0;
+        }
+
+        // Scan the board from the given coordinate
+        // Generated by Copilot
+        int[][] offsets = {{-3, 0}, {-2, -1}, {-2, 0}, {-2, 1}, {-1, -2}, {-1, -1}, {-1, 0}, {-1, 1}, {-1, 2}, {0, -3}, {0, -2}, {0, -1}, {0, 0}, {0, 1}, {0, 2}, {0, 3}, {1, -2}, {1, -1}, {1, 0}, {1, 1}, {1, 2}, {2, -1}, {2, 0}, {2, 1}, {3, 0}};
+        for (int i = 0; i < offsets.length; i++) {
+            int row = offsets[i][0] + c.getRow();
+            int col = offsets[i][1] + c.getColumn();
+
+            if (row < 0 || row >= enemyBoard.getHeight()) {
+                continue;
+            }
+            if (col < 0 || col >= enemyBoard.getWidth()) {
+                continue;
+            }
+
+            // Do not consider suqares that are hit
+            if (enemyBoard.whatIsAtForSelf(new Coordinate(row, col)) == null) continue;
+            switch (enemyBoard.whatIsAtForSelf(new Coordinate(row, col))) {
+                case 's':
+                    result[0]++;
+                    break;
+                case 'd':
+                    result[1]++;
+                    break;
+                case 'b':
+                    result[2]++;
+                    break;
+                case 'c':
+                    result[3]++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return result;
     }
 }

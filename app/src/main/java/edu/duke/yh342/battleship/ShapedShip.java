@@ -8,6 +8,7 @@ import java.util.HashSet;
 public class ShapedShip<T> extends BasicShip<T> {
 
     final String name;
+    final char orientation;
 
     /**
      * Return the name of the ship
@@ -34,32 +35,32 @@ public class ShapedShip<T> extends BasicShip<T> {
             int baseCol = upperLeft.getColumn();
 
             if (name.equals("Battleship")) {
-                switch (width) {
+                switch (width + 'A') {
                     /*
                          b      OR    b         bbb         b
                         bbb           bb   OR    b     OR  bb
                                       b                     b
                      */
-                    case 'U' - 'A':
+                    case 'U':
                         // I know this is not the best way, but it can avoid mistakes
                         res.add(new Coordinate(baseRow, baseCol + 1));
                         res.add(new Coordinate(baseRow + 1, baseCol));
                         res.add(new Coordinate(baseRow + 1, baseCol + 1));
                         res.add(new Coordinate(baseRow + 1, baseCol + 2));
                         break;
-                    case 'R' - 'A':
+                    case 'R':
                         res.add(new Coordinate(baseRow, baseCol));
                         res.add(new Coordinate(baseRow + 1, baseCol));
                         res.add(new Coordinate(baseRow + 1, baseCol + 1));
                         res.add(new Coordinate(baseRow + 2, baseCol));
                         break;
-                    case 'D' - 'A':
+                    case 'D':
                         res.add(new Coordinate(baseRow, baseCol));
                         res.add(new Coordinate(baseRow, baseCol + 1));
                         res.add(new Coordinate(baseRow, baseCol + 2));
                         res.add(new Coordinate(baseRow + 1, baseCol + 1));
                         break;
-                    case 'L' - 'A':
+                    case 'L':
                         res.add(new Coordinate(baseRow, baseCol + 1));
                         res.add(new Coordinate(baseRow + 1, baseCol));
                         res.add(new Coordinate(baseRow + 1, baseCol + 1));
@@ -69,7 +70,7 @@ public class ShapedShip<T> extends BasicShip<T> {
                         throw new IllegalArgumentException("Unexpected error happened in ShapedShip.makeCoords()!");
                 }
             } else {
-                switch (width) {
+                switch (width + 'A') {
                     /*
                         c                       c             
                         c           cccc        cc         ccc
@@ -77,7 +78,7 @@ public class ShapedShip<T> extends BasicShip<T> {
                         cc                       c         
                          c                       c
                      */
-                    case 'U' - 'A':
+                    case 'U':
                         res.add(new Coordinate(baseRow, baseCol));
                         res.add(new Coordinate(baseRow + 1, baseCol));
                         res.add(new Coordinate(baseRow + 2, baseCol));
@@ -86,7 +87,7 @@ public class ShapedShip<T> extends BasicShip<T> {
                         res.add(new Coordinate(baseRow + 3, baseCol + 1));
                         res.add(new Coordinate(baseRow + 4, baseCol + 1));
                         break;
-                    case 'R' - 'A':
+                    case 'R':
                         res.add(new Coordinate(baseRow, baseCol + 1));
                         res.add(new Coordinate(baseRow, baseCol + 2));
                         res.add(new Coordinate(baseRow, baseCol + 3));
@@ -95,7 +96,7 @@ public class ShapedShip<T> extends BasicShip<T> {
                         res.add(new Coordinate(baseRow + 1, baseCol + 1));
                         res.add(new Coordinate(baseRow + 1, baseCol + 2));
                         break;
-                    case 'D' - 'A':
+                    case 'D':
                         res.add(new Coordinate(baseRow, baseCol));
                         res.add(new Coordinate(baseRow + 1, baseCol));
                         res.add(new Coordinate(baseRow + 1, baseCol + 1));
@@ -104,7 +105,7 @@ public class ShapedShip<T> extends BasicShip<T> {
                         res.add(new Coordinate(baseRow + 3, baseCol + 1));
                         res.add(new Coordinate(baseRow + 4, baseCol + 1));
                         break;
-                    case 'L' - 'A':
+                    case 'L':
                         res.add(new Coordinate(baseRow, baseCol + 2));
                         res.add(new Coordinate(baseRow, baseCol + 3));
                         res.add(new Coordinate(baseRow, baseCol + 4));
@@ -151,6 +152,7 @@ public class ShapedShip<T> extends BasicShip<T> {
     public ShapedShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
         super(makeCoords(upperLeft, width, height, name), myDisplayInfo, enemyDisplayInfo);
         this.name = name;
+        this.orientation = (char) (width + 'A');
     }
 
     /**
@@ -179,6 +181,15 @@ public class ShapedShip<T> extends BasicShip<T> {
      */
     public ShapedShip(Coordinate upperLeft, T data, T onHit) {
         this("testship", upperLeft, 1, 1, data, onHit);
+    }
+
+    /*
+     * Get the orientation of the ship
+     * 
+     * @return the orientation of the ship
+     */
+    public char getOrientation() {
+        return this.orientation;
     }
 
 }

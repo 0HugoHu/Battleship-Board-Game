@@ -75,7 +75,7 @@ public class Placement {
         int column = descr.charAt(1) - '0';
         // Check the second char
         if (column < 0 || column > 9) {
-            throw new IllegalArgumentException("Coordinate's last character must be numerical value but is " + column);
+            throw new IllegalArgumentException("Coordinate's second character must be numerical value but is " + column);
         }
         char orientation = descr.charAt(2);
         // char[] valid = {'V', 'H'};
@@ -87,7 +87,7 @@ public class Placement {
                 break;
         }
         if (i == valid.length) {
-            throw new IllegalArgumentException("Ship's orientation must be one of 'V', 'H', but is " + orientation);
+            throw new IllegalArgumentException("Ship's orientation must be one of 'V', 'H', 'U', 'R', 'D', 'L', but is " + orientation);
         }
 
         this.where = new Coordinate(row, column);

@@ -40,23 +40,23 @@ public class App {
     /**
      * Continually play the game until one player loses
      *
-     * @param enemyBoard the enemy board
-     * @param enemyView  the enemy board view
-     * @param enemyName  the enemy name
      * @throws IOException if I/O operation fails
      */
     public void doAttackingPhase() throws IOException {
         boolean isGameEnds = false;
         boolean isPlayer1Turn = true;
+        int[] skillA = {3, 3};
+        int[] skillB = {3, 3};
         while (!isGameEnds) {
             if (isPlayer1Turn) {
-                isGameEnds = player1.playOneTurn(player2.theBoard, player2.view, player2.name);
+                isGameEnds = player1.playOneTurn(player2.theBoard, player2.view, player2.name, skillA);
             } else {
-                isGameEnds = player2.playOneTurn(player1.theBoard, player1.view, player1.name);
+                isGameEnds = player2.playOneTurn(player1.theBoard, player1.view, player1.name, skillB);
             }
             isPlayer1Turn = !isPlayer1Turn;
         }
     }
+
 
     /**
      * Main Entrance: build the game board, set input and output source,
@@ -70,7 +70,9 @@ public class App {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         V2ShipFactory factory = new V2ShipFactory();
         TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
-        TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
+        // TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
+        // Test for AI
+        TextPlayer p2 = new TextPlayer("AI", b2, input, System.out, factory);
 
         App app = new App(p1, p2);
         app.doPlacementPhase();

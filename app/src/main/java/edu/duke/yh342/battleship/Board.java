@@ -59,4 +59,48 @@ public interface Board<T> {
      */
     public boolean allShipsSunk();
 
+    /**
+     * Return the ship at the coordinate
+     *
+     * @param where the coordinate to be checked
+     * @return the ship at the coordinate
+     */
+    public Ship<T> getShipAt(Coordinate where);
+
+    /**
+     * Move a ship to a new coordinate
+     *
+     * @param toMove the ship to be moved
+     * @param to     the new coordinate
+     * @param ownBoard the board the ship is on
+     * @return true if the ship is moved
+     */
+    public boolean moveShipTo(Ship<T> toMove, Placement to, Board<T> ownBoard);
+
+
+    /**
+     * Transfer hit points from one ship to another
+     *
+     * @param from the ship to transfer hit points from
+     * @param to   the ship to transfer hit points to
+     */
+    public void transferHitPoints(Ship<T> from, Ship<Character> to);
+
+    /**
+     * Remove a ship from the board
+     *
+     * @param toRemove the ship to be removed
+     */
+    public void removeShip(Ship<T> toRemove);
+
+
+    /**
+     * Get the number of tiles the enemy ship occupies on the board
+     *
+     * @param c the coordinate to scan
+     * @param enemyBoard the enemy board
+     * @return the number of ships on the board
+     */
+    public int[] sonarScan(Coordinate c, Board<Character> enemyBoard);
+
 }

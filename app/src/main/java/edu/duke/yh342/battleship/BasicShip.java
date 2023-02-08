@@ -128,4 +128,22 @@ public abstract class BasicShip<T> implements Ship<T> {
         return myPieces.keySet();
     }
 
+   /*
+     * Add new coordinate to the ship
+     * 
+     * @param c is the coordinate to add
+     * @param hit is whether the coordinate is hit
+     */
+    public void addCoordinate(Coordinate c, boolean hit) {
+        myPieces.put(c, hit);
+    }
+
+    /*
+     * Remove all coordinates from the ship
+     * 
+     */
+    public void removeCoordinate() {
+        myPieces.clear();
+    }
+
 }

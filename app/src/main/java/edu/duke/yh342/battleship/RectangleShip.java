@@ -8,6 +8,7 @@ import java.util.HashSet;
 public class RectangleShip<T> extends BasicShip<T> {
 
     final String name;
+    final char orientation;
 
     /**
      * Return the name of the ship
@@ -21,12 +22,13 @@ public class RectangleShip<T> extends BasicShip<T> {
     /**
      * Make coordinates based on the ship shape and store them in HashSet
      *
-     * @param upperLeft start coordinate of the ship
+     * @param upperLeft start coordinate of the ship with orientation
      * @param width     width of the ship
      * @param height    height of the ship
      * @return HashSet of all coordinates the ship occupies
      */
-    static HashSet<Coordinate> makeCoords(Coordinate upperLeft, int width, int height) {
+    static HashSet<Coordinate> makeCoords(Placement placement, int width, int height) {
+        Coordinate upperLeft = placement.getCoordinate();
         if (width <= 0) {
             throw new IllegalArgumentException("Ship's occupy space must be at least 1 x 1, but its width is " + width);
         }
@@ -48,28 +50,29 @@ public class RectangleShip<T> extends BasicShip<T> {
      * Initialize the rectancle ship with its name, position and display info
      *
      * @param name             of the ship
-     * @param upperLeft        start position of the ship
+     * @param upperLeft        start position of the ship with orientation
      * @param width            width of the ship
      * @param height           height of the ship
      * @param myDisplayInfo    contains the data and onhit representation
      * @param enemyDisplayInfo contains the data and onhit representation
      */
-    public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
+    public RectangleShip(String name, Placement upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
         super(makeCoords(upperLeft, width, height), myDisplayInfo, enemyDisplayInfo);
         this.name = name;
+        this.orientation = (char) (width + 'A');
     }
 
     /**
      * Initialize the rectancle ship with its name, position and display info
      *
      * @param name      of the ship
-     * @param upperLeft start position of the ship
+     * @param upperLeft start position of the ship with orientation
      * @param width     width of the ship
      * @param height    height of the ship
      * @param data      representation on the block
      * @param onHit     hit representation on the block
      */
-    public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
+    public RectangleShip(String name, Placement upperLeft, int width, int height, T data, T onHit) {
         this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit), new SimpleShipDisplayInfo<T>(null, data));
     }
 
@@ -82,7 +85,16 @@ public class RectangleShip<T> extends BasicShip<T> {
      * @param onHit     hit representation on the block
      */
     public RectangleShip(Coordinate upperLeft, T data, T onHit) {
-        this("testship", upperLeft, 1, 1, data, onHit);
+        this("testship", new Placement(upperLeft, 'H'), 1, 1, data, onHit);
+    }
+
+    /*
+     * Get the orientation of the ship
+     * 
+     * @return the orientation of the ship
+     */
+    public char getOrientation() {
+        return this.orientation;
     }
 
 }

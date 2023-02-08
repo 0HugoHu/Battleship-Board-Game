@@ -68,4 +68,25 @@ public interface Ship<T> {
      * @return An Iterable with the coordinates that this Ship occupies
      */
     public Iterable<Coordinate> getCoordinates();
+
+    /*
+     * Add new coordinate to the ship
+     * 
+     * @param c is the coordinate to add
+     * @param hit is whether the coordinate is hit
+     */
+    public void addCoordinate(Coordinate c, boolean hit);
+
+    /*
+     * Remove all coordinates from the ship
+     * 
+     */
+    public void removeCoordinate();
+
+    /*
+     * Get the orientation of the ship
+     * 
+     * @return the orientation of the ship
+     */
+    public char getOrientation();
 }

@@ -22,9 +22,9 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
             return new ShapedShip<Character>(name, where.getCoordinate(), where.getOrientation() - 'A', 0, letter, '*');
         } else {
             if (where.getOrientation() == 'V') {
-                return new RectangleShip<Character>(name, where.getCoordinate(), w, h, letter, '*');
+                return new RectangleShip<Character>(name, where, w, h, letter, '*');
             } else {
-                return new RectangleShip<Character>(name, where.getCoordinate(), h, w, letter, '*');
+                return new RectangleShip<Character>(name, where, h, w, letter, '*');
             }
         }
     }
