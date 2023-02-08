@@ -147,10 +147,10 @@ public class TextPlayer {
     public Coordinate aiGenerateCoordinate() {
         int x = Integer.MAX_VALUE;
         int y = Integer.MAX_VALUE;
-        while (x >= this.theBoard.getWidth()) {
+        while (x >= this.theBoard.getHeight()) {
             x = randomNumberList[randomNumberPointer++];
         }
-        while (y >= this.theBoard.getHeight()) {
+        while (y >= this.theBoard.getWidth()) {
             y = randomNumberList[randomNumberPointer++];
         }
         Coordinate c = new Coordinate(x, y);
@@ -298,6 +298,7 @@ public class TextPlayer {
         Coordinate c = null;
         if (this.isAI) {
             c = aiGenerateCoordinate();
+            out.print("AI attacks " + c.toString() + "\n");
         } else {
             String s = inputReader.readLine();
             while (s == null) {
@@ -313,10 +314,18 @@ public class TextPlayer {
         
         Ship<Character> ship = enemyBoard.fireAt(c);
         if (ship == null) {
-            out.print("\nYou missed!\n\n");
+            if (this.isAI) {
+                out.print("\nAI missed your target!\n\n");
+            } else {
+                out.print("\nYou missed!\n\n");
+            }
         } 
         else {
-            out.print("\nYou hit a " + ship.getName() + "!\n\n");
+            if (this.isAI) {
+                out.print("\nAI hit a " + ship.getName() + "!\n\n");
+            } else {
+                out.print("\nYou hit a " + ship.getName() + "!\n\n");
+            }
         }
     }
 
@@ -328,7 +337,7 @@ public class TextPlayer {
      * @throws IOException if I/O operation fails
      */
     public boolean readAndMove(Board<Character> ownBoard) throws IOException {
-        Coordinate c;
+        Coordinate c = null;
         Ship<Character> ship = null;
         while (ship == null) {
             if (this.isAI) {
@@ -350,7 +359,13 @@ public class TextPlayer {
                 return false;
             }
         }
-        out.print("You chose a " + ship.getName() + ", enter the new coordinate of the ship: \n");
+        
+        if (this.isAI) {
+            out.print("AI chooses a " + ship.getName() + " at " + c.toString() + ".\n");
+        } else {
+            out.print("You chose a " + ship.getName() + ", enter the new coordinate of the ship: \n");
+        }
+        
         Placement newPosition = null;
         // Read the new coordinate
         if (this.isAI) {
@@ -370,7 +385,11 @@ public class TextPlayer {
         
         // Try to move the ship
         if (ownBoard.moveShipTo(ship, newPosition, ownBoard)) {
-            out.print("Ship moved successfully.\n");
+            if (this.isAI) {
+                out.print("AI's Ship moved to " + newPosition.toString() + ".\n");
+            } else {
+                out.print("Ship moved successfully.\n");
+            }
             return true;
         } else {
             out.print("Ship cannot be moved to this position.\n");
@@ -390,32 +409,34 @@ public class TextPlayer {
      * @throws IOException if I/O operation fails
      */
     public boolean readAndScan(Board<Character> enemyBoard) throws IOException {
-        String s;
+        Coordinate c;
+        
         if (this.isAI) {
-            s = aiGenerateCoordinate().toString();
+            c = aiGenerateCoordinate();
+            out.print("AI scans " + c.toString() + ".\n");
         } else {
-            s = inputReader.readLine();
+            String s = inputReader.readLine();
             while (s == null) {
                 out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
                 s = inputReader.readLine();
             }
+            // TODO: check if the coordinate is inside the board
+            try {
+                c = new Coordinate(s);
+            } catch (IllegalArgumentException e) {
+                out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
+                return false;
+            }
         }
 
-        // TODO: check if the coordinate is inside the board
-        try {
-            Coordinate c = new Coordinate(s);
-            int[] result = enemyBoard.sonarScan(c, enemyBoard);
-            out.print("---------------------------------------------------------------------------\n" + 
-            "Submarines occupy " + result[0] + " square(s)\n" +
-            "Destroyers occupy " + result[1] + " square(s)\n" +
-            "Battleships occupy " + result[2] + " square(s)\n" +
-            "Carriers occupy " + result[3] + " square(s)\n" +
-            "---------------------------------------------------------------------------\n\n");
-            return true;
-        } catch (IllegalArgumentException e) {
-            out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
-        }
-        return false;
+        int[] result = enemyBoard.sonarScan(c, enemyBoard);
+        out.print("---------------------------------------------------------------------------\n" + 
+        "Submarines occupy " + result[0] + " square(s)\n" +
+        "Destroyers occupy " + result[1] + " square(s)\n" +
+        "Battleships occupy " + result[2] + " square(s)\n" +
+        "Carriers occupy " + result[3] + " square(s)\n" +
+        "---------------------------------------------------------------------------\n\n");
+        return true;
     }
 
 
@@ -427,7 +448,7 @@ public class TextPlayer {
     public char readChoice(int[] skill) throws IOException {
         String s;
         if (this.isAI) {
-            s = aiGenerateChoice(skill) + "";
+            return aiGenerateChoice(skill);
         } else {
             s = inputReader.readLine();
         }
@@ -450,8 +471,12 @@ public class TextPlayer {
      * @throws IOException if I/O operation fails
      */
     public boolean playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName, int[] skill) throws IOException{
-        out.print("New Turn Begins\n\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
-
+        if (this.isAI) {
+            out.print("New Turn Begins\n\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "AI's ocean", "Player " + enemyName + "'s ocean") + "\n\n");
+        } else {
+            out.print("New Turn Begins\n\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
+        }
+        
         boolean result = false;
         while (!result) {
             if (skill[0] != 0 || skill[1] != 0) {
@@ -464,13 +489,17 @@ public class TextPlayer {
                 if (skill[1] > 0) {
                     out.print(" S Sonar scan (" + skill[1] + " remaining)\n");
                 }
-                out.print("\nPlayer " + name + ", what would you like to do?\n" + 
-                        "---------------------------------------------------------------------------\n");
+                if (!this.isAI) {
+                    out.print("\nPlayer " + name + ", what would you like to do?\n");
+                }
+                out.print("---------------------------------------------------------------------------\n");
                 
                 switch (readChoice(skill)) {
                     case 'F':
                     case 'f':
-                        out.print("\nPlayer " + name + ", now is your turn to fire:\n");
+                        if (!this.isAI) {
+                            out.print("\nPlayer " + name + ", now is your turn to fire:\n");
+                        }
                         readAndFire(enemyBoard);
                         result = true;
                         out.print("After Attack:\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
@@ -478,7 +507,9 @@ public class TextPlayer {
                         break;
                     case 'M':
                     case 'm':
-                        out.print("\nPlayer " + name + ", now is your turn to move:\n");
+                        if (!this.isAI) {
+                            out.print("\nPlayer " + name + ", now is your turn to move:\n");
+                        }
                         if (readAndMove(this.theBoard)) {
                             skill[0]--;
                             result = true;
@@ -488,7 +519,9 @@ public class TextPlayer {
                         break;
                     case 'S':
                     case 's':
-                        out.print("\nPlayer " + name + ", now is your turn to scan:\n");
+                        if (!this.isAI) {
+                            out.print("\nPlayer " + name + ", now is your turn to scan:\n");
+                        }
                         if (readAndScan(enemyBoard)) {
                             skill[1]--;
                             result = true;
@@ -496,7 +529,9 @@ public class TextPlayer {
                         break;
                 }
             } else {
-                out.print("Player " + name + ", now is your turn to fire:\n");
+                if (!this.isAI) {
+                    out.print("Player " + name + ", now is your turn to fire:\n");
+                }
                 readAndFire(enemyBoard);
                 out.print("After Attack:\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
                 out.print("----------------------------------------------------------\n");          
@@ -505,7 +540,7 @@ public class TextPlayer {
         
         
         if (isGameEnds(enemyBoard)) {
-            out.print("Player " + enemyName + " has lost the game!\n");
+            out.print("Player " + enemyName + " has lost the game! Player" + this.name + " wins!\n");
             return true;
         }
         return false;
