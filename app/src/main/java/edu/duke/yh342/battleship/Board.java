@@ -28,6 +28,7 @@ public interface Board<T> {
      */
     public String tryAddShip(Ship<T> toAdd);
 
+
     /**
      * Return what is at the block for self only
      *
@@ -75,7 +76,7 @@ public interface Board<T> {
      * @param ownBoard the board the ship is on
      * @return true if the ship is moved
      */
-    public boolean moveShipTo(Ship<T> toMove, Placement to, Board<T> ownBoard);
+    public boolean moveShipTo(Ship<Character> toMove, Placement to, Board<Character> ownBoard);
 
 
     /**
@@ -84,7 +85,7 @@ public interface Board<T> {
      * @param from the ship to transfer hit points from
      * @param to   the ship to transfer hit points to
      */
-    public void transferHitPoints(Ship<T> from, Ship<Character> to);
+    public void transferHitPoints(Ship<Character> from, Ship<Character> to);
 
     /**
      * Remove a ship from the board
@@ -92,7 +93,6 @@ public interface Board<T> {
      * @param toRemove the ship to be removed
      */
     public void removeShip(Ship<T> toRemove);
-
 
     /**
      * Get the number of tiles the enemy ship occupies on the board

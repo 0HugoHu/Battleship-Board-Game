@@ -31,16 +31,16 @@ Player A: you are going to place the following ships (which are allrectangular).
 
 Player A where would you like to put your ship?
   0|1|2|3|4|5|6|7|8|9
-A  |b| | | | | | | |  A
-B b|b|b| | | | | | |  B
+A  | | | | | | | | |  A
+B  | | | | | | | | |  B
 C  | | | | | | | | |  C
 D  | | | | | | | | |  D
 E  | | | | | | | | |  E
 F  | | | | | | | | |  F
 G  | | | | | | | | |  G
-H  | | | | | | | | |  H
-I  | | | | | | | | |  I
-J  | | | | | | | | |  J
+H  | | | | | | | |b|  H
+I  | | | | | | | |b|b I
+J  | | | | | | | |b|  J
 K  | | | | | | | | |  K
 L  | | | | | | | | |  L
 M  | | | | | | | | |  M
@@ -94,10 +94,10 @@ D  | | | | | | | | |  D
 E  | | | | | | | | |  E
 F  | | | | | | | | |  F
 G  | | | | | | | | |  G
-H b|b|b| | | | | | |  H
-I  |b| | | | | | | |  I
-J  | | | | | | | | |  J
-K  | | | | | | | | |  K
+H  | | | | | | | | |  H
+I  | | | | | | | | |  I
+J  |b| | | | | | | |  J
+K b|b|b| | | | | | |  K
 L  | | | | | | | | |  L
 M  | | | | | | | | |  M
 N  | | | | | | | | |  N
@@ -115,16 +115,16 @@ New Turn Begins
 
      Your ocean                           Player AI's ocean
   0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
-A  |b| | | | | | | |  A                A  | | | | | | | | |  A
-B b|b|b| | | | | | |  B                B  | | | | | | | | |  B
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
 C  | | | | | | | | |  C                C  | | | | | | | | |  C
 D  | | | | | | | | |  D                D  | | | | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
 F  | | | | | | | | |  F                F  | | | | | | | | |  F
 G  | | | | | | | | |  G                G  | | | | | | | | |  G
-H  | | | | | | | | |  H                H  | | | | | | | | |  H
-I  | | | | | | | | |  I                I  | | | | | | | | |  I
-J  | | | | | | | | |  J                J  | | | | | | | | |  J
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | | | | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
 K  | | | | | | | | |  K                K  | | | | | | | | |  K
 L  | | | | | | | | |  L                L  | | | | | | | | |  L
 M  | | | | | | | | |  M                M  | | | | | | | | |  M
@@ -148,10 +148,11 @@ Possible actions for Player A:
 Player A, what would you like to do?
 ---------------------------------------------------------------------------
 
-Player A, now is your turn to move:
-You chose a Battleship, enter the new coordinate of the ship: 
-Ship moved successfully.
-After Move:
+Player A, now is your turn to fire:
+
+You missed!
+
+After Attack:
      Your ocean                           Player AI's ocean
   0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
 A  | | | | | | | | |  A                A  | | | | | | | | |  A
@@ -161,10 +162,10 @@ D  | | | | | | | | |  D                D  | | | | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
 F  | | | | | | | | |  F                F  | | | | | | | | |  F
 G  | | | | | | | | |  G                G  | | | | | | | | |  G
-H  | | | | | | | | |  H                H  | | | | | | | | |  H
-I  | | | | | | | | |  I                I  | | | | | | | | |  I
-J  | |b|b|b| | | | |  J                J  | | | | | | | | |  J
-K  | | |b| | | | | |  K                K  | | | | | | | | |  K
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
 L  | | | | | | | | |  L                L  | | | | | | | | |  L
 M  | | | | | | | | |  M                M  | | | | | | | | |  M
 N  | | | | | | | | |  N                N  | | | | | | | | |  N
@@ -189,10 +190,123 @@ D  | | | | | | | | |  D                D  | | | | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
 F  | | | | | | | | |  F                F  | | | | | | | | |  F
 G  | | | | | | | | |  G                G  | | | | | | | | |  G
-H b|b|b| | | | | | |  H                H  | | | | | | | | |  H
-I  |b| | | | | | | |  I                I  | | | | | | | | |  I
-J  | | | | | | | | |  J                J  | | | | | | | | |  J
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  |b| | | | | | | |  J                J  | | | | | | | | |  J
+K b|b|b| | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to fire:
+
+You missed!
+
+After Attack:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  |b| | | | | | | |  J                J  | | | | | | | | |  J
+K b|b|b| | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
 K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player A:
+
+ F Fire at a square
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (3 remaining)
+
+Player A, what would you like to do?
+---------------------------------------------------------------------------
+
+Player A, now is your turn to scan:
+---------------------------------------------------------------------------
+Submarines occupy 0 square(s)
+Destroyers occupy 0 square(s)
+Battleships occupy 0 square(s)
+Carriers occupy 0 square(s)
+---------------------------------------------------------------------------
+
+New Turn Begins
+
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  |b| | | | | | | |  J                J  | | | | | | | | |  J
+K b|b|b| | | | | | |  K                K  | | | | | | | | |  K
 L  | | | | | | | | |  L                L  | | | | | | | | |  L
 M  | | | | | | | | |  M                M  | | | | | | | | |  M
 N  | | | | | | | | |  N                N  | | | | | | | | |  N
@@ -217,6 +331,46 @@ Player AI, what would you like to do?
 
 Player AI, now is your turn to move:
 You chose a Battleship, enter the new coordinate of the ship: 
+Ship cannot be moved to this position.
+After Move:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  |b| | | | | | | |  J                J  | | | | | | | | |  J
+K b|b|b| | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to move:
+You chose a Battleship, enter the new coordinate of the ship: 
 Ship moved successfully.
 After Move:
      Your ocean                           Player A's ocean
@@ -226,9 +380,185 @@ B  | | | | | | | | |  B                B  | | | | | | | | |  B
 C  | | | | | | | | |  C                C  | | | | | | | | |  C
 D  | | | | | | | | |  D                D  | | | | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
-F b| | | | | | | | |  F                F  | | | | | | | | |  F
-G b|b| | | | | | | |  G                G  | | | | | | | | |  G
-H b| | | | | | | | |  H                H  | | | | | | | | |  H
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  |b|b|b| | | | | |  I                I  | | | | | | | | |  I
+J  | |b| | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player A:
+
+ F Fire at a square
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (2 remaining)
+
+Player A, what would you like to do?
+---------------------------------------------------------------------------
+
+Player A, now is your turn to scan:
+---------------------------------------------------------------------------
+Submarines occupy 0 square(s)
+Destroyers occupy 0 square(s)
+Battleships occupy 4 square(s)
+Carriers occupy 0 square(s)
+---------------------------------------------------------------------------
+
+New Turn Begins
+
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  |b|b|b| | | | | |  I                I  | | | | | | | | |  I
+J  | |b| | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (2 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to move:
+You chose a Battleship, enter the new coordinate of the ship: 
+Ship cannot be moved to this position.
+After Move:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  |b|b|b| | | | | |  I                I  | | | | | | | | |  I
+J  | |b| | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (2 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to scan:
+Invalid coordinate, please refer to the documentation for valid input.
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (2 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to scan:
+Invalid coordinate, please refer to the documentation for valid input.
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (2 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to move:
+You chose a Battleship, enter the new coordinate of the ship: 
+Ship moved successfully.
+After Move:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | |b| | | | | |  C                C  | | | | | | | | |  C
+D  | |b|b| | | | | |  D                D  | | | | | | | | |  D
+E  | | |b| | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
 I  | | | | | | | | |  I                I  | | | | | | | | |  I
 J  | | | | | | | | |  J                J  | | | | | | | | |  J
 K  | | | | | | | | |  K                K  | | | | | | | | |  K
@@ -256,10 +586,10 @@ D  | | | | | | | | |  D                D  | | | | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
 F  | | | | | | | | |  F                F  | | | | | | | | |  F
 G  | | | | | | | | |  G                G  | | | | | | | | |  G
-H  | | | | | | | | |  H                H  | | | | | | | | |  H
-I  | | | | | | | | |  I                I  | | | | | | | | |  I
-J  | |b|b|b| | | | |  J                J  | | | | | | | | |  J
-K  | | |b| | | | | |  K                K  | | | | | | | | |  K
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
 L  | | | | | | | | |  L                L  | | | | | | | | |  L
 M  | | | | | | | | |  M                M  | | | | | | | | |  M
 N  | | | | | | | | |  N                N  | | | | | | | | |  N
@@ -276,8 +606,208 @@ T  | | | | | | | | |  T                T  | | | | | | | | |  T
 Possible actions for Player A:
 
  F Fire at a square
- M Move a ship to another square (2 remaining)
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (1 remaining)
+
+Player A, what would you like to do?
+---------------------------------------------------------------------------
+
+Player A, now is your turn to fire:
+
+You hit a Battleship!
+
+After Attack:
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | |b| | | | | |  C                C  | | | | | | | | |  C
+D  | |*|b| | | | | |  D                D  | | | | | | | | |  D
+E  | | |b| | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (1 remaining)
  S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to move:
+You chose a Battleship, enter the new coordinate of the ship: 
+Ship cannot be moved to this position.
+After Move:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | |b| | | | | |  C                C  | | | | | | | | |  C
+D  | |*|b| | | | | |  D                D  | | | | | | | | |  D
+E  | | |b| | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (1 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to scan:
+Invalid coordinate, please refer to the documentation for valid input.
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (1 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to scan:
+Invalid coordinate, please refer to the documentation for valid input.
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ M Move a ship to another square (1 remaining)
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to fire:
+
+You missed!
+
+After Attack:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | |b| | | | | |  C                C  | | | | | | | | |  C
+D  | |*|b| | | | | |  D                D  | | | | | | | | |  D
+E  | | |b| | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player A:
+
+ F Fire at a square
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (1 remaining)
 
 Player A, what would you like to do?
 ---------------------------------------------------------------------------
@@ -291,15 +821,15 @@ After Attack:
   0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
 A  | | | | | | | | |  A                A  | | | | | | | | |  A
 B  | | | | | | | | |  B                B  | | | | | | | | |  B
-C  | | | | | | | | |  C                C  | | | | | | | | |  C
-D  | | | | | | | | |  D                D  | | | | | | | | |  D
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
 F  | | | | | | | | |  F                F  | | | | | | | | |  F
-G  | | | | | | | | |  G                G X| | | | | | | | |  G
-H  | | | | | | | | |  H                H  | | | | | | | | |  H
-I  | | | | | | | | |  I                I  | | | | | | | | |  I
-J  | |b|b|b| | | | |  J                J  | | | | | | | | |  J
-K  | | |b| | | | | |  K                K  | | | | | | | | |  K
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
 L  | | | | | | | | |  L                L  | | | | | | | | |  L
 M  | | | | | | | | |  M                M  | | | | | | | | |  M
 N  | | | | | | | | |  N                N  | | | | | | | | |  N
@@ -319,12 +849,12 @@ New Turn Begins
   0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
 A  | | | | | | | | |  A                A  | | | | | | | | |  A
 B  | | | | | | | | |  B                B  | | | | | | | | |  B
-C  | | | | | | | | |  C                C  | | | | | | | | |  C
-D  | | | | | | | | |  D                D  | | | | | | | | |  D
-E  | | | | | | | | |  E                E  | | | | | | | | |  E
-F b| | | | | | | | |  F                F  | | | | | | | | |  F
-G *|b| | | | | | | |  G                G  | | | | | | | | |  G
-H b| | | | | | | | |  H                H  | | | | | | | | |  H
+C  | | |b| | | | | |  C                C  | | | | | | | | |  C
+D  | |*|b| | | | | |  D                D  | | | | | | | | |  D
+E  | | |b| | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | | | | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
 I  | | | | | | | | |  I                I  | | | | | | | | |  I
 J  | | | | | | | | |  J                J  | | | | | | | | |  J
 K  | | | | | | | | |  K                K  | | | | | | | | |  K
@@ -344,39 +874,26 @@ T  | | | | | | | | |  T                T  | | | | | | | | |  T
 Possible actions for Player AI:
 
  F Fire at a square
- M Move a ship to another square (2 remaining)
+ M Move a ship to another square (1 remaining)
  S Sonar scan (3 remaining)
 
 Player AI, what would you like to do?
 ---------------------------------------------------------------------------
 
-Player AI, now is your turn to scan:
-Invalid coordinate, please refer to the documentation for valid input.
----------------------------------------------------------------------------
-Possible actions for Player AI:
-
- F Fire at a square
- M Move a ship to another square (2 remaining)
- S Sonar scan (3 remaining)
-
-Player AI, what would you like to do?
----------------------------------------------------------------------------
-
-Player AI, now is your turn to fire:
-
-You missed!
-
-After Attack:
+Player AI, now is your turn to move:
+You chose a Battleship, enter the new coordinate of the ship: 
+Ship moved successfully.
+After Move:
      Your ocean                           Player A's ocean
   0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
-A  | | | | | | | | |  A                A  | |X| | | | | | |  A
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
 B  | | | | | | | | |  B                B  | | | | | | | | |  B
 C  | | | | | | | | |  C                C  | | | | | | | | |  C
 D  | | | | | | | | |  D                D  | | | | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
-F b| | | | | | | | |  F                F  | | | | | | | | |  F
-G *|b| | | | | | | |  G                G  | | | | | | | | |  G
-H b| | | | | | | | |  H                H  | | | | | | | | |  H
+F  | | | | |b|b|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
 I  | | | | | | | | |  I                I  | | | | | | | | |  I
 J  | | | | | | | | |  J                J  | | | | | | | | |  J
 K  | | | | | | | | |  K                K  | | | | | | | | |  K
@@ -399,15 +916,15 @@ New Turn Begins
   0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
 A  | | | | | | | | |  A                A  | | | | | | | | |  A
 B  | | | | | | | | |  B                B  | | | | | | | | |  B
-C  | | | | | | | | |  C                C  | | | | | | | | |  C
-D  | | | | | | | | |  D                D  | | | | | | | | |  D
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
 E  | | | | | | | | |  E                E  | | | | | | | | |  E
 F  | | | | | | | | |  F                F  | | | | | | | | |  F
-G  | | | | | | | | |  G                G X| | | | | | | | |  G
-H  | | | | | | | | |  H                H  | | | | | | | | |  H
-I  | | | | | | | | |  I                I  | | | | | | | | |  I
-J  | |b|b|b| | | | |  J                J  | | | | | | | | |  J
-K  | | |b| | | | | |  K                K  | | | | | | | | |  K
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
 L  | | | | | | | | |  L                L  | | | | | | | | |  L
 M  | | | | | | | | |  M                M  | | | | | | | | |  M
 N  | | | | | | | | |  N                N  | | | | | | | | |  N
@@ -424,8 +941,587 @@ T  | | | | | | | | |  T                T  | | | | | | | | |  T
 Possible actions for Player A:
 
  F Fire at a square
- M Move a ship to another square (2 remaining)
- S Sonar scan (3 remaining)
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (1 remaining)
 
 Player A, what would you like to do?
 ---------------------------------------------------------------------------
+
+Player A, now is your turn to fire:
+
+You hit a Battleship!
+
+After Attack:
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b| | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|b|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to fire:
+
+You missed!
+
+After Attack:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|b|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b| | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player A:
+
+ F Fire at a square
+ M Move a ship to another square (3 remaining)
+ S Sonar scan (1 remaining)
+
+Player A, what would you like to do?
+---------------------------------------------------------------------------
+
+Player A, now is your turn to scan:
+---------------------------------------------------------------------------
+Submarines occupy 0 square(s)
+Destroyers occupy 0 square(s)
+Battleships occupy 0 square(s)
+Carriers occupy 0 square(s)
+---------------------------------------------------------------------------
+
+New Turn Begins
+
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|b|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to fire:
+
+You missed!
+
+After Attack:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|b|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b| | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | |b|  H                H  | | | | | | | | |  H
+I  | | | | | | | |b|b I                I  | | | | |X| | | |  I
+J  | | | | | | | |b|  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player A:
+
+ F Fire at a square
+ M Move a ship to another square (3 remaining)
+
+Player A, what would you like to do?
+---------------------------------------------------------------------------
+
+Player A, now is your turn to move:
+You chose a Battleship, enter the new coordinate of the ship: 
+Ship moved successfully.
+After Move:
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b| | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | |X| | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | |b| | | | | |  M                M  | | | | | | | | |  M
+N  | |b|b|b| | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|b|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to scan:
+Invalid coordinate, please refer to the documentation for valid input.
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to scan:
+Invalid coordinate, please refer to the documentation for valid input.
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to fire:
+
+You missed!
+
+After Attack:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|b|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b| | | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | |X| | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | |b| | | | | |  M                M  | | | | | | | | |  M
+N  | |b|b|b| | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player A:
+
+ F Fire at a square
+ M Move a ship to another square (2 remaining)
+
+Player A, what would you like to do?
+---------------------------------------------------------------------------
+
+Player A, now is your turn to fire:
+
+You hit a Battleship!
+
+After Attack:
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b|b| | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | |X| | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | |b| | | | | |  M                M  | | | | | | | | |  M
+N  | |b|b|b| | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|*|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to scan:
+Invalid coordinate, please refer to the documentation for valid input.
+---------------------------------------------------------------------------
+Possible actions for Player AI:
+
+ F Fire at a square
+ S Sonar scan (3 remaining)
+
+Player AI, what would you like to do?
+---------------------------------------------------------------------------
+
+Player AI, now is your turn to fire:
+
+You missed!
+
+After Attack:
+     Your ocean                           Player A's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | |X| | | | |  B
+C  | | | | | | | | |  C                C  | | | | | | | | |  C
+D  | | | | | | | | |  D                D  | | | | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | |*|*|*| |  F                F  | | | | | | | | |  F
+G  | | | | | |b| | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | | | | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | | | | | | | |  M                M  | | | | | | | | |  M
+N  | | | | | | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+New Turn Begins
+
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b|b| | |  F
+G  | | | | | | | | |  G                G  | | | | | | | | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | |X| | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | |b| | | | | |  M                M  | | | | | | | | |  M
+N  | |b|b|b| | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+---------------------------------------------------------------------------
+Possible actions for Player A:
+
+ F Fire at a square
+ M Move a ship to another square (2 remaining)
+
+Player A, what would you like to do?
+---------------------------------------------------------------------------
+
+Player A, now is your turn to fire:
+
+You hit a Battleship!
+
+After Attack:
+     Your ocean                           Player AI's ocean
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+A  | | | | | | | | |  A                A  | | | | | | | | |  A
+B  | | | | | | | | |  B                B  | | | | | | | | |  B
+C  | | | | | | | | |  C                C  |X| | | | | | | |  C
+D  | | | | | | | | |  D                D  | |b| | | | | | |  D
+E  | | | | | | | | |  E                E  | | | | | | | | |  E
+F  | | | | | | | | |  F                F  | | | | |b|b| | |  F
+G  | | | | | | | | |  G                G  | | | | | |b| | |  G
+H  | | | | | | | | |  H                H  | | | | | | | | |  H
+I  | | | | | | | | |  I                I  | | | | |X| | | |  I
+J  | | | | | | | | |  J                J  | | | | | | | | |  J
+K  | | | | | | | | |  K                K  | | | | | | | | |  K
+L  | | | | | | | | |  L                L  | | | | | | | | |  L
+M  | | |b| | | | | |  M                M  | | | | | | | | |  M
+N  | |b|b|b| | | | |  N                N  | | | | | | | | |  N
+O  | | | | | | | | |  O                O  | | | | | | | | |  O
+P  | | | | | | | | |  P                P  | | | | | | | | |  P
+Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q
+R  | | | | | | | | |  R                R  | | | | | | | | |  R
+S  | | | | | | | | |  S                S  | | | | | | | | |  S
+T  | | | | | | | | |  T                T  | | | | | | | | |  T
+  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9
+
+
+----------------------------------------------------------
+Player A has lost the game!

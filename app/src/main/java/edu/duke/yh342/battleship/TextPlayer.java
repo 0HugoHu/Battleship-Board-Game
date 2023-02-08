@@ -311,8 +311,6 @@ public class TextPlayer {
             }
         }
         
-        enemyBoard.fireAt(c);
-        
         Ship<Character> ship = enemyBoard.fireAt(c);
         if (ship == null) {
             out.print("\nYou missed!\n\n");
@@ -507,7 +505,7 @@ public class TextPlayer {
         
         
         if (isGameEnds(enemyBoard)) {
-            out.print("Player " + this.name + " has lost the game!\n");
+            out.print("Player " + enemyName + " has lost the game!\n");
             return true;
         }
         return false;

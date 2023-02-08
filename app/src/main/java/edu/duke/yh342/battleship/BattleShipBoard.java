@@ -120,14 +120,14 @@ public class BattleShipBoard<T> implements Board<T> {
             throw new IllegalArgumentException("Input coordinate width must in the range but width is " + where.getColumn());
         }
         if(!isSelf){
+            if (notShownPieces.contains(where)){
+                return null;
+            }
             if(enemyMisses.contains(where)){
                 return missInfo;
             }
             if (enemyHits.containsKey(where)){
                 return enemyHits.get(where);
-            }
-            if (notShownPieces.contains(where)){
-                return null;
             }
         }
         for (Ship<T> s: myShips) {
@@ -162,11 +162,17 @@ public class BattleShipBoard<T> implements Board<T> {
         for (Ship<T> s : myShips) {
             if (s.occupiesCoordinates(c) && !s.wasHitAt(c)) {
                 this.enemyHits.put(c, s.getDisplayInfoAt(c, true));
+                if (enemyMisses.contains(c)) {
+                    enemyMisses.remove(c);
+                }
                 s.recordHitAt(c);
                 return s;
             }
         }
         enemyMisses.add(c);
+        if (enemyHits.containsKey(c)) {
+            enemyHits.remove(c);
+        }
         return null;
     }
 
@@ -207,7 +213,7 @@ public class BattleShipBoard<T> implements Board<T> {
      * @param ownBoard the board to be moved to
      * @return true if the ship is moved
      */
-    public boolean moveShipTo(Ship<T> toMove, Placement to, Board<T> ownBoard) {
+    public boolean moveShipTo(Ship<Character> toMove, Placement to, Board<Character> ownBoard) {
         // Traverse the ship coordinate to find the top left coordinate
         V2ShipFactory shipFactory = new V2ShipFactory();
         Ship<Character> s = null;
@@ -221,29 +227,23 @@ public class BattleShipBoard<T> implements Board<T> {
             s = shipFactory.makeSubmarine(to);
         }
 
-        // Backup
-        Ship<T> backup = toMove;
-        // Now add hit points to the ship
-        transferHitPoints(toMove, s);
-
-        toMove.removeCoordinate();
-
-        // Remove the original ship
-        ownBoard.removeShip(toMove);
-
-        for (Coordinate c : s.getCoordinates()) {
-            toMove.addCoordinate(c, s.wasHitAt(c));
-        }
-
         // Check for valid placement
-
-        String result = ownBoard.tryAddShip(toMove);
+        String result = ownBoard.tryAddShip(s);
         if (result == null) {
+            ownBoard.removeShip(s);
+            // Now add hit points to the ship
+            transferHitPoints(toMove, s);
+            toMove.removeCoordinate();
+            // Remove the original ship
+            ownBoard.removeShip(toMove);
+            for (Coordinate c : s.getCoordinates()) {
+                toMove.addCoordinate(c, s.wasHitAt(c));
+            }
+            ownBoard.tryAddShip(toMove);
             return true;
+        } else {
+            return false;
         }
-        
-        toMove = backup;
-        return false;
     }
 
 
@@ -253,7 +253,7 @@ public class BattleShipBoard<T> implements Board<T> {
      * @param from the ship to transfer hit points from
      * @param to   the ship to transfer hit points to
      */
-    public void transferHitPoints(Ship<T> from, Ship<Character> to) {
+    public void transferHitPoints(Ship<Character> from, Ship<Character> to) {
         // Find the top left coordinate of old ship
         int baseOldCol = Integer.MAX_VALUE;
         int baseOldRow = Integer.MAX_VALUE;
@@ -329,7 +329,7 @@ public class BattleShipBoard<T> implements Board<T> {
                             newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
                         } else if (newOrient == 'L' ) {
                             Coordinate newPivot = new Coordinate(baseNewRow + 2, baseNewCol + 1);
-                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() + col);
+                            newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
                         } else {
                             Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
                             newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
@@ -337,24 +337,24 @@ public class BattleShipBoard<T> implements Board<T> {
                     } else if (oldOrient == 'D') {
                         if (newOrient == 'L' ) {
                             Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 1);
-                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() + row);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
                         } else if (newOrient == 'U' ) {
                             Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol + 2);
                             newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
                         } else {
                             Coordinate newPivot = new Coordinate(baseNewRow + 2, baseNewCol);
-                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
                         }
                     } else {
                         if (newOrient == 'U' ) {
                             Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 2);
-                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() + row);
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
                         } else if (newOrient == 'R' ) {
                             Coordinate newPivot = new Coordinate(baseNewRow + 2, baseNewCol + 1);
                             newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
                         } else {
                             Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
-                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
                         }
                     }
                     // Orientation of Carrier
@@ -368,7 +368,7 @@ public class BattleShipBoard<T> implements Board<T> {
                             newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
                         } else {
                             Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
-                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
                         }
                     } else if (oldOrient == 'R') {
                         if (newOrient == 'D' ) {
@@ -379,7 +379,7 @@ public class BattleShipBoard<T> implements Board<T> {
                             newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
                         } else {
                             Coordinate newPivot = new Coordinate(baseNewRow + 4, baseNewCol);
-                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
                         }
                     } else if (oldOrient == 'D') {
                         if (newOrient == 'L' ) {
@@ -390,22 +390,25 @@ public class BattleShipBoard<T> implements Board<T> {
                             newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
                         } else {
                             Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol);
-                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
                         }
                     } else {
                         if (newOrient == 'U' ) {
                             Coordinate newPivot = new Coordinate(baseNewRow, baseNewCol + 1);
-                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn());
+                            newHitPoint = new Coordinate(newPivot.getRow() + col, newPivot.getColumn() - row);
                         } else if (newOrient == 'R' ) {
                             Coordinate newPivot = new Coordinate(baseNewRow + 1, baseNewCol + 4);
                             newHitPoint = new Coordinate(newPivot.getRow() - row, newPivot.getColumn() - col);
                         } else {
                             Coordinate newPivot = new Coordinate(baseNewRow + 4, baseNewCol);
-                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() - row);
+                            newHitPoint = new Coordinate(newPivot.getRow() - col, newPivot.getColumn() + row);
                         }
                     }
                 }
                 to.addCoordinate(newHitPoint, true);
+                if (this.notShownPieces.contains(oldCoord)) {
+                    this.notShownPieces.remove(oldCoord);
+                }
                 this.notShownPieces.add(newHitPoint);
             }
         }
@@ -419,6 +422,7 @@ public class BattleShipBoard<T> implements Board<T> {
     public void removeShip(Ship<T> toRemove) {
         myShips.remove(toRemove);
     }
+
 
     /**
      * Get the number of tiles the enemy ship occupies on the board
