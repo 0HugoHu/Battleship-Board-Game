@@ -1,4 +1,4 @@
-# ece651-sp20-yh342-battleship
+# ece651-sp23-yh342-battleship
 
 Completed by: Hugo Hu, on Feb. 9, 2023.
 
