@@ -15,7 +15,7 @@ public class TextPlayer {
     final BoardTextView view;
     final BufferedReader inputReader;
     final PrintStream out;
-    final AbstractShipFactory<Character> shipFactory;
+    AbstractShipFactory<Character> shipFactory;
     String name;
     final ArrayList<String> shipsToPlace;
     final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
@@ -31,27 +31,25 @@ public class TextPlayer {
      * @param theBoard    the game board
      * @param inputSource the input source
      * @param out         the output pointer
+     * @param factory     the ship factory version 1
      */
     public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out, V1ShipFactory factory) {
-        this.theBoard = theBoard;
-        this.view = new BoardTextView(theBoard);
-        this.inputReader = inputSource;
-        this.out = out;
+        this(name, theBoard, inputSource, out);
         this.shipFactory = factory;
-        this.name = name;
-        this.shipsToPlace = new ArrayList<>();
-        this.shipCreationFns = new HashMap<>();
-        if (name.equals("AI")){
-            isAI = true;
-            randomNumberList = new int[10000];
-            setupRandomNumberList();
-        }
-        else{
-            isAI = false;
-            randomNumberList = null;
-        }
-        setupShipCreationMap();
-        setupShipCreationList();
+    }
+
+    /**
+     * Initialize a player object on version 2 configuration
+     *
+     * @param name        the name of the player
+     * @param theBoard    the game board
+     * @param inputSource the input source
+     * @param out         the output pointer
+     * @param factory     the ship factory version 2
+     */
+    public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out, V2ShipFactory factory) {
+        this(name, theBoard, inputSource, out);
+        this.shipFactory = factory;
     }
 
     /**
@@ -62,21 +60,19 @@ public class TextPlayer {
      * @param inputSource the input source
      * @param out         the output pointer
      */
-    public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out, V2ShipFactory factory) {
+    public TextPlayer(String name, Board<Character> theBoard, BufferedReader inputSource, PrintStream out) {
         this.theBoard = theBoard;
         this.view = new BoardTextView(theBoard);
         this.inputReader = inputSource;
         this.out = out;
-        this.shipFactory = factory;
         this.name = name;
         this.shipsToPlace = new ArrayList<>();
         this.shipCreationFns = new HashMap<>();
-        if (name.equals("AI")){
+        if (name.equals("AI")) {
             isAI = true;
-            randomNumberList = new int[10000];
+            randomNumberList = new int[10000000];
             setupRandomNumberList();
-        }
-        else{
+        } else {
             isAI = false;
             randomNumberList = null;
         }
@@ -94,6 +90,7 @@ public class TextPlayer {
     public Placement readPlacement(String prompt) throws IOException {
         this.out.println(prompt);
         String s = inputReader.readLine();
+        // System.out.println("*****" + s);
         if (s == null) {
             throw new IOException();
         }
@@ -103,7 +100,7 @@ public class TextPlayer {
         } catch (IllegalArgumentException e) {
             return null;
         }
-        
+
         return p;
     }
 
@@ -126,11 +123,10 @@ public class TextPlayer {
                 }
             } else {
                 p = readPlacement("Player " + name + " where would you like to put your ship?");
-            }   
-            // TODO: Don't know how to test this structure
-            while (p == null) {
-                out.print("\nInvalid placement. Try again.\n");
-                p = readPlacement("Player " + name + " where would you like to put your ship?");
+                while (p == null || (((shipName.equals("Submarine") || shipName.equals("Destroyer")) && (p.getOrientation() == 'U' || p.getOrientation() == 'R' || p.getOrientation() == 'D' || p.getOrientation() == 'L'))) || (((shipName.equals("Battleship") || shipName.equals("Carrier")) && (p.getOrientation() == 'V' || p.getOrientation() == 'H')))) {
+                    out.print("\nInvalid placement. Try again.\n");
+                    p = readPlacement("Player " + name + " where would you like to put your ship?");
+                }
             }
             Ship<Character> s = createFn.apply(p);
             result = this.theBoard.tryAddShip(s);
@@ -142,7 +138,7 @@ public class TextPlayer {
     /**
      * Generate a random coordinate for AI
      *
-     *  @return the coordinate of that ship
+     * @return the coordinate of that ship
      */
     public Coordinate aiGenerateCoordinate() {
         int x = Integer.MAX_VALUE;
@@ -161,8 +157,8 @@ public class TextPlayer {
      * Generate a placement for AI
      *
      * @param type the type of placement generation
-     *            0: generate a placement for H and V placement
-     *            1: generate a placement for U, R, D, L placement
+     *             0: generate a placement for H and V placement
+     *             1: generate a placement for U, R, D, L placement
      * @return the placement of that ship
      */
     public Placement aiGeneratePlacement(int type) {
@@ -186,13 +182,13 @@ public class TextPlayer {
             }
         }
     }
-    
+
     /**
      * Generate a choice for AI
      *
      * @param skill the skill of choices left
-     *            skill[0]: number of movement skill left
-     *            skill[1]: number of scan skill left
+     *              skill[0]: number of movement skill left
+     *              skill[1]: number of scan skill left
      * @return the choice of that ship
      */
     public char aiGenerateChoice(int[] skill) {
@@ -262,10 +258,10 @@ public class TextPlayer {
      * Add all ships into creation list
      */
     protected void setupShipCreationList() {
-        // shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
-        // shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
-        shipsToPlace.addAll(Collections.nCopies(1, "Battleship"));
-        // shipsToPlace.addAll(Collections.nCopies(1, "Carrier"));
+        shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+        shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+        shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
+        shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
     }
 
     /**
@@ -300,18 +296,25 @@ public class TextPlayer {
             c = aiGenerateCoordinate();
             out.print("AI attacks " + c.toString() + "\n");
         } else {
-            String s = inputReader.readLine();
-            while (s == null) {
-                out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
-                s = inputReader.readLine();
-            }
-            try {
-                c = new Coordinate(s);
-            } catch (IllegalArgumentException e) {
-                out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
+            boolean result = false;
+            while (!result) {
+                String s = inputReader.readLine();
+                // This part is hard to test, so if the input is null
+                // we will exit the program with error message
+                if (s == null) {
+                    // out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
+                    // s = inputReader.readLine();
+                    throw new IOException("Empty input! Please enter a coordinate (e.g., A2). The game is end.\n");
+                }
+                try {
+                    c = new Coordinate(s);
+                    result = true;
+                } catch (IllegalArgumentException e) {
+                    out.print("Invalid coordinate, please refer to the documentation for valid input. Input again:\n");
+                }
             }
         }
-        
+
         Ship<Character> ship = enemyBoard.fireAt(c);
         if (ship == null) {
             if (this.isAI) {
@@ -319,8 +322,7 @@ public class TextPlayer {
             } else {
                 out.print("\nYou missed!\n\n");
             }
-        } 
-        else {
+        } else {
             if (this.isAI) {
                 out.print("\nAI hit a " + ship.getName() + "!\n\n");
             } else {
@@ -343,14 +345,25 @@ public class TextPlayer {
             if (this.isAI) {
                 c = aiGenerateCoordinate();
             } else {
-                String s = inputReader.readLine();
-                while (s == null) {
-                    out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
-                    s = inputReader.readLine();
+                boolean result = false;
+                while (!result) {
+                    String s = inputReader.readLine();
+                    // This part is hard to test, so if the input is null
+                    // we will exit the program with error message
+                    if (s == null) {
+                        // out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
+                        // s = inputReader.readLine();
+                        throw new IOException("Empty input! Please enter a coordinate (e.g., A2). The game is end.\n");
+                    }
+                    try {
+                        c = new Coordinate(s);
+                        result = true;
+                    } catch (IllegalArgumentException e) {
+                        out.print("Invalid coordinate, please refer to the documentation for valid input. Input again:\n");
+                    }
                 }
-                c = new Coordinate(s);
             }
-            
+
             // Try to get the ship at the coordinate
             // try {
             ship = ownBoard.getShipAt(c);
@@ -359,13 +372,13 @@ public class TextPlayer {
                 return false;
             }
         }
-        
+
         if (this.isAI) {
             out.print("AI chooses a " + ship.getName() + " at " + c.toString() + ".\n");
         } else {
             out.print("You chose a " + ship.getName() + ", enter the new coordinate of the ship: \n");
         }
-        
+
         Placement newPosition = null;
         // Read the new coordinate
         if (this.isAI) {
@@ -375,14 +388,30 @@ public class TextPlayer {
                 newPosition = aiGeneratePlacement(1);
             }
         } else {
-            String newPositionStr = inputReader.readLine();
-            while (newPositionStr == null) {
-                out.print("Invalid input, please enter a coordinate with orientation (e.g., A2H).\n");
-                newPositionStr = inputReader.readLine();
+            boolean result = false;
+            while (!result) {
+                String newPositionStr = inputReader.readLine();
+                // This part is hard to test, so if the input is null
+                // we will exit the program with error message
+                if (newPositionStr == null) {
+                    // out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
+                    // newPositionStr = inputReader.readLine();
+                    throw new IOException("Empty input! Please enter a coordinate (e.g., A2). The game is end.\n");
+                }
+                try {
+                    newPosition = new Placement(newPositionStr);
+                    if ((ship.getName().equals("Submarine") || ship.getName().equals("Destroyer")) && (newPosition.getOrientation() == 'U' || newPosition.getOrientation() == 'R' || newPosition.getOrientation() == 'D' || newPosition.getOrientation() == 'L') || (((ship.getName().equals("Battleship") || ship.getName().equals("Carrier")) && (newPosition.getOrientation() == 'V' || newPosition.getOrientation() == 'H')))) {
+                        out.print("Ship submarine or destroyer cannot have 'U', 'R', 'D', 'L' positions. Enter again:\n");
+                    } else {
+                        result = true;
+                    }
+
+                } catch (IllegalArgumentException e) {
+                    out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
+                }
             }
-            newPosition = new Placement(newPositionStr);
         }
-        
+
         // Try to move the ship
         if (ownBoard.moveShipTo(ship, newPosition, ownBoard)) {
             if (this.isAI) {
@@ -395,9 +424,7 @@ public class TextPlayer {
             out.print("Ship cannot be moved to this position.\n");
             return false;
         }
-        // } catch (IllegalArgumentException e) {
-        //     out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
-        // }
+
         // return false;
     }
 
@@ -409,33 +436,39 @@ public class TextPlayer {
      * @throws IOException if I/O operation fails
      */
     public boolean readAndScan(Board<Character> enemyBoard) throws IOException {
-        Coordinate c;
-        
+        Coordinate c = null;
+
         if (this.isAI) {
             c = aiGenerateCoordinate();
             out.print("AI scans " + c.toString() + ".\n");
         } else {
-            String s = inputReader.readLine();
-            while (s == null) {
-                out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
-                s = inputReader.readLine();
-            }
-            // TODO: check if the coordinate is inside the board
-            try {
-                c = new Coordinate(s);
-            } catch (IllegalArgumentException e) {
-                out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
-                return false;
+            boolean result = false;
+            while (!result) {
+                String s = inputReader.readLine();
+                // This part is hard to test, so if the input is null
+                // we will exit the program with error message
+                if (s == null) {
+                    // out.print("Invalid input, please enter a coordinate (e.g., A2).\n");
+                    // s = inputReader.readLine();
+                    throw new IOException("Empty input! Please enter a coordinate (e.g., A2). The game is end.\n");
+                }
+                // TODO: check if the coordinate is inside the board
+                try {
+                    c = new Coordinate(s);
+                    result = true;
+                } catch (IllegalArgumentException e) {
+                    out.print("Invalid coordinate, please refer to the documentation for valid input.\n");
+                }
             }
         }
 
         int[] result = enemyBoard.sonarScan(c, enemyBoard);
-        out.print("---------------------------------------------------------------------------\n" + 
-        "Submarines occupy " + result[0] + " square(s)\n" +
-        "Destroyers occupy " + result[1] + " square(s)\n" +
-        "Battleships occupy " + result[2] + " square(s)\n" +
-        "Carriers occupy " + result[3] + " square(s)\n" +
-        "---------------------------------------------------------------------------\n\n");
+        out.print("---------------------------------------------------------------------------\n" +
+                "Submarines occupy " + result[0] + " square(s)\n" +
+                "Destroyers occupy " + result[1] + " square(s)\n" +
+                "Battleships occupy " + result[2] + " square(s)\n" +
+                "Carriers occupy " + result[3] + " square(s)\n" +
+                "---------------------------------------------------------------------------\n\n");
         return true;
     }
 
@@ -452,7 +485,7 @@ public class TextPlayer {
         } else {
             s = inputReader.readLine();
         }
-        while (s == null || s.length() != 1 || (s.charAt(0) != 'F' && s.charAt(0) != 'f' && s.charAt(0) != 'S' && s.charAt(0) != 's' && s.charAt(0) != 'M' && s.charAt(0) != 'm')) {
+        while (s == null || s.length() != 1 || (s.charAt(0) != 'F' && s.charAt(0) != 'f' && s.charAt(0) != 'S' && s.charAt(0) != 's' && s.charAt(0) != 'M' && s.charAt(0) != 'm') || (skill[0] <= 0 && (s.charAt(0) == 'M' || s.charAt(0) == 'm')) || (skill[1] <= 0 && (s.charAt(0) == 'S' || s.charAt(0) == 's'))) {
             out.print("Invalid input, please enter a valid choice.\n");
             s = inputReader.readLine();
         }
@@ -470,18 +503,18 @@ public class TextPlayer {
      * @return true if the game ends
      * @throws IOException if I/O operation fails
      */
-    public boolean playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName, int[] skill) throws IOException{
+    public boolean playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName, int[] skill) throws IOException {
         if (this.isAI) {
             out.print("New Turn Begins\n\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "AI's ocean", "Player " + enemyName + "'s ocean") + "\n\n");
         } else {
             out.print("New Turn Begins\n\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
         }
-        
+
         boolean result = false;
         while (!result) {
             if (skill[0] != 0 || skill[1] != 0) {
-                out.print("---------------------------------------------------------------------------\n" + 
-                        "Possible actions for Player " + name + ":\n\n" + 
+                out.print("---------------------------------------------------------------------------\n" +
+                        "Possible actions for Player " + name + ":\n\n" +
                         " F Fire at a square\n");
                 if (skill[0] > 0) {
                     out.print(" M Move a ship to another square (" + skill[0] + " remaining)\n");
@@ -493,7 +526,7 @@ public class TextPlayer {
                     out.print("\nPlayer " + name + ", what would you like to do?\n");
                 }
                 out.print("---------------------------------------------------------------------------\n");
-                
+
                 switch (readChoice(skill)) {
                     case 'F':
                     case 'f':
@@ -522,10 +555,10 @@ public class TextPlayer {
                         if (!this.isAI) {
                             out.print("\nPlayer " + name + ", now is your turn to scan:\n");
                         }
-                        if (readAndScan(enemyBoard)) {
-                            skill[1]--;
-                            result = true;
-                        }
+                        readAndScan(enemyBoard);
+                        skill[1]--;
+                        result = true;
+
                         break;
                 }
             } else {
@@ -533,14 +566,15 @@ public class TextPlayer {
                     out.print("Player " + name + ", now is your turn to fire:\n");
                 }
                 readAndFire(enemyBoard);
+                result = true;
                 out.print("After Attack:\n" + this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean") + "\n\n");
-                out.print("----------------------------------------------------------\n");          
+                out.print("----------------------------------------------------------\n");
             }
         }
-        
-        
+
+
         if (isGameEnds(enemyBoard)) {
-            out.print("Player " + enemyName + " has lost the game! Player" + this.name + " wins!\n");
+            out.print("Player " + enemyName + " has lost the game! Player " + this.name + " wins!\n");
             return true;
         }
         return false;

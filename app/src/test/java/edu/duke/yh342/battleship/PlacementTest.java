@@ -13,7 +13,6 @@ public class PlacementTest {
         assertEquals(new Coordinate(10, 20), p1.getCoordinate());
         assertEquals('V', p1.getOrientation());
         assertEquals('V', p2.getOrientation());
-
     }
 
     @Test
@@ -71,7 +70,6 @@ public class PlacementTest {
         assertEquals(25, p4.getCoordinate().getRow());
         assertEquals(0, p4.getCoordinate().getColumn());
         assertEquals('H', p4.getOrientation());
-
     }
 
     @Test

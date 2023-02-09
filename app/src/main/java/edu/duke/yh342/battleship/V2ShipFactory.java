@@ -18,8 +18,7 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
     protected Ship<Character> createShip(Placement where, int w, int h, char letter, String name) {
         // Battleship and Carrier are special cases
         if (name.equals("Battleship") || name.equals("Carrier")) {
-            // Use the width parameter to pass the orientation of the ship without breaking the adapatbility
-            return new ShapedShip<Character>(name, where.getCoordinate(), where.getOrientation() - 'A', 0, letter, '*');
+            return new ShapedShip<Character>(name, where, 0, 0, letter, '*');
         } else {
             if (where.getOrientation() == 'V') {
                 return new RectangleShip<Character>(name, where, w, h, letter, '*');
@@ -44,8 +43,8 @@ public class V2ShipFactory implements AbstractShipFactory<Character> {
      * Create a battleship based on the placement
      *
      * @param where to place the ship
-     * @return Ship<Character> a new RectangleShip instance 
-    */
+     * @return Ship<Character> a new RectangleShip instance
+     */
     @Override
     public Ship<Character> makeBattleship(Placement where) {
         return createShip(where, 1, 4, 'b', "Battleship");

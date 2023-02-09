@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class RectangleShip<T> extends BasicShip<T> {
 
     final String name;
-    final char orientation;
+    char orientation;
 
     /**
      * Return the name of the ship
@@ -59,7 +59,7 @@ public class RectangleShip<T> extends BasicShip<T> {
     public RectangleShip(String name, Placement upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
         super(makeCoords(upperLeft, width, height), myDisplayInfo, enemyDisplayInfo);
         this.name = name;
-        this.orientation = (char) (width + 'A');
+        this.orientation = upperLeft.getOrientation();
     }
 
     /**
@@ -90,11 +90,20 @@ public class RectangleShip<T> extends BasicShip<T> {
 
     /*
      * Get the orientation of the ship
-     * 
+     *
      * @return the orientation of the ship
      */
     public char getOrientation() {
         return this.orientation;
+    }
+
+    /*
+     * Set the orientation of the ship after orientation
+     *
+     * @param c is the orientation to set
+     */
+    public void setOrientation(char c) {
+        this.orientation = c;
     }
 
 }

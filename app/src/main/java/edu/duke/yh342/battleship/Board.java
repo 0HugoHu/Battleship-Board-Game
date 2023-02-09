@@ -71,8 +71,8 @@ public interface Board<T> {
     /**
      * Move a ship to a new coordinate
      *
-     * @param toMove the ship to be moved
-     * @param to     the new coordinate
+     * @param toMove   the ship to be moved
+     * @param to       the new coordinate
      * @param ownBoard the board the ship is on
      * @return true if the ship is moved
      */
@@ -97,7 +97,7 @@ public interface Board<T> {
     /**
      * Get the number of tiles the enemy ship occupies on the board
      *
-     * @param c the coordinate to scan
+     * @param c          the coordinate to scan
      * @param enemyBoard the enemy board
      * @return the number of ships on the board
      */

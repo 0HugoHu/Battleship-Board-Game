@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class ShapedShip<T> extends BasicShip<T> {
 
     final String name;
-    final char orientation;
+    char orientation;
 
     /**
      * Return the name of the ship
@@ -27,7 +27,8 @@ public class ShapedShip<T> extends BasicShip<T> {
      * @param height    height of the ship
      * @return HashSet of all coordinates the ship occupies
      */
-    static HashSet<Coordinate> makeCoords(Coordinate upperLeft, int width, int height, String name) {
+    static HashSet<Coordinate> makeCoords(Placement placement, int width, int height, String name) {
+        Coordinate upperLeft = placement.getCoordinate();
         HashSet<Coordinate> res = new HashSet<>();
 
         if (height == 0 && (name.equals("Battleship") || name.equals("Carrier"))) {
@@ -35,7 +36,7 @@ public class ShapedShip<T> extends BasicShip<T> {
             int baseCol = upperLeft.getColumn();
 
             if (name.equals("Battleship")) {
-                switch (width + 'A') {
+                switch (placement.getOrientation()) {
                     /*
                          b      OR    b         bbb         b
                         bbb           bb   OR    b     OR  bb
@@ -70,7 +71,7 @@ public class ShapedShip<T> extends BasicShip<T> {
                         throw new IllegalArgumentException("Unexpected error happened in ShapedShip.makeCoords()!");
                 }
             } else {
-                switch (width + 'A') {
+                switch (placement.getOrientation()) {
                     /*
                         c                       c             
                         c           cccc        cc         ccc
@@ -129,7 +130,7 @@ public class ShapedShip<T> extends BasicShip<T> {
             throw new IllegalArgumentException("Ship's occupy space must be at least 1 x 1, but its height is " + height);
         }
 
-        
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 res.add(new Coordinate(upperLeft.getRow() + i, upperLeft.getColumn() + j));
@@ -143,16 +144,16 @@ public class ShapedShip<T> extends BasicShip<T> {
      * Initialize the rectancle ship with its name, position and display info
      *
      * @param name             of the ship
-     * @param upperLeft        start position of the ship
+     * @param upperLeft        start position of the ship with orientation
      * @param width            width of the ship
      * @param height           height of the ship
      * @param myDisplayInfo    contains the data and onhit representation
      * @param enemyDisplayInfo contains the data and onhit representation
      */
-    public ShapedShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
+    public ShapedShip(String name, Placement upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
         super(makeCoords(upperLeft, width, height, name), myDisplayInfo, enemyDisplayInfo);
         this.name = name;
-        this.orientation = (char) (width + 'A');
+        this.orientation = upperLeft.getOrientation();
     }
 
     /**
@@ -160,13 +161,13 @@ public class ShapedShip<T> extends BasicShip<T> {
      * This constructor is used for test case where width and height are both 1 only
      *
      * @param name      of the ship
-     * @param upperLeft start position of the ship
+     * @param upperLeft start position of the ship with orientation
      * @param width     width of the ship
      * @param height    height of the ship
      * @param data      representation on the block
      * @param onHit     hit representation on the block
      */
-    public ShapedShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
+    public ShapedShip(String name, Placement upperLeft, int width, int height, T data, T onHit) {
         this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit), new SimpleShipDisplayInfo<T>(null, data));
     }
 
@@ -175,21 +176,30 @@ public class ShapedShip<T> extends BasicShip<T> {
      * where width and height are both 1 and name is "testship"
      * This constructor is used for test case where width and height are both 1 only
      *
-     * @param upperLeft start position of the ship
+     * @param upperLeft start position of the ship with orientation
      * @param data      representation on the block
      * @param onHit     hit representation on the block
      */
-    public ShapedShip(Coordinate upperLeft, T data, T onHit) {
+    public ShapedShip(Placement upperLeft, T data, T onHit) {
         this("testship", upperLeft, 1, 1, data, onHit);
     }
 
     /*
      * Get the orientation of the ship
-     * 
+     *
      * @return the orientation of the ship
      */
     public char getOrientation() {
         return this.orientation;
+    }
+
+    /*
+     * Set the orientation of the ship after orientation
+     *
+     * @param c is the orientation to set
+     */
+    public void setOrientation(char c) {
+        this.orientation = c;
     }
 
 }

@@ -11,5 +11,4 @@ public class SimpleShipDisplayInfoTest {
         assertEquals('#', s.getInfo(new Coordinate(0, 0), true));
         assertEquals('s', s.getInfo(new Coordinate(0, 1), false));
     }
-
 }

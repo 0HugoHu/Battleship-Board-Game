@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TextPlayerTest {
@@ -68,567 +69,61 @@ public class TextPlayerTest {
         // assertEquals(false, result);
     }
 
+
     @Test
-    public void test_do_placement_phrase() throws IOException {
+    public void test_difficult_to_test_part() {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        String prompt1 = "Player A: you are going to place the following ships (which are all" +
-                "rectangular). For each ship, type the coordinate of the upper left" +
-                "side of the ship, followed by either H (for horizontal) or V (for" +
-                "vertical). For example M4H would place a ship horizontally starting" +
-                "at M4 and going to the right. You have\n\n" +
-                "2 \"Submarines\" ships that are 1x2\n" +
-                "3 \"Destroyers\" that are 1x3\n" +
-                "3 \"Battleships\" that are 1x4\n" +
-                "2 \"Carriers\" that are 1x6\n";
-        String prompt2 = "Player A where would you like to put your ship?";
-        String inputData1 = "a1h\n" +
-                "b1h\n" +
-                "c1h\n" +
-                "d1h\n" +
-                "e1h\n" +
-                "f1h\n" +
-                "g1h\n" +
-                "h1h\n" +
-                "i1h\n" +
-                "j1h\n";
+        PrintStream output = new PrintStream(bytes, true);
+        BufferedReader input = new BufferedReader(new StringReader("a0h\na0\na1\n"));
+        V2ShipFactory shipFactory = new V2ShipFactory();
+        Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
+        BoardTextView view = new BoardTextView(board);
 
-        String inputData2 = "k1h\n" +
-                "l1h\n" +
-                "m1h\n" +
-                "n1h\n" +
-                "o1h\n" +
-                "p1h\n" +
-                "q1h\n" +
-                "r1h\n" +
-                "s1h\n" +
-                "t1h\n";
-
-        String expectedOutput = "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A: you are going to place the following ships (which are allrectangular). For each ship, type the coordinate of the upper leftside of the ship, followed by either H (for horizontal) or V (forvertical). For example M4H would place a ship horizontally startingat M4 and going to the right. You have\n" +
-                "\n" +
-                "2 \"Submarines\" ships that are 1x2\n" +
-                "3 \"Destroyers\" that are 1x3\n" +
-                "3 \"Battleships\" that are 1x4\n" +
-                "2 \"Carriers\" that are 1x6\n" +
-                "\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  |d|d|d| | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  |d|d|d| | | | | |  D\n" +
-                "E  |d|d|d| | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  |d|d|d| | | | | |  D\n" +
-                "E  |d|d|d| | | | | |  E\n" +
-                "F  |b|b|b|b| | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  |d|d|d| | | | | |  D\n" +
-                "E  |d|d|d| | | | | |  E\n" +
-                "F  |b|b|b|b| | | | |  F\n" +
-                "G  |b|b|b|b| | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  |d|d|d| | | | | |  D\n" +
-                "E  |d|d|d| | | | | |  E\n" +
-                "F  |b|b|b|b| | | | |  F\n" +
-                "G  |b|b|b|b| | | | |  G\n" +
-                "H  |b|b|b|b| | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  |d|d|d| | | | | |  D\n" +
-                "E  |d|d|d| | | | | |  E\n" +
-                "F  |b|b|b|b| | | | |  F\n" +
-                "G  |b|b|b|b| | | | |  G\n" +
-                "H  |b|b|b|b| | | | |  H\n" +
-                "I  |c|c|c|c|c|c| | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player A where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  |s|s| | | | | | |  A\n" +
-                "B  |s|s| | | | | | |  B\n" +
-                "C  |d|d|d| | | | | |  C\n" +
-                "D  |d|d|d| | | | | |  D\n" +
-                "E  |d|d|d| | | | | |  E\n" +
-                "F  |b|b|b|b| | | | |  F\n" +
-                "G  |b|b|b|b| | | | |  G\n" +
-                "H  |b|b|b|b| | | | |  H\n" +
-                "I  |c|c|c|c|c|c| | |  I\n" +
-                "J  |c|c|c|c|c|c| | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  | | | | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B: you are going to place the following ships (which are allrectangular). For each ship, type the coordinate of the upper leftside of the ship, followed by either H (for horizontal) or V (forvertical). For example M4H would place a ship horizontally startingat M4 and going to the right. You have\n" +
-                "\n" +
-                "2 \"Submarines\" ships that are 1x2\n" +
-                "3 \"Destroyers\" that are 1x3\n" +
-                "3 \"Battleships\" that are 1x4\n" +
-                "2 \"Carriers\" that are 1x6\n" +
-                "\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  | | | | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  | | | | | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  | | | | | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  |d|d|d| | | | | |  N\n" +
-                "O  | | | | | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  |d|d|d| | | | | |  N\n" +
-                "O  |d|d|d| | | | | |  O\n" +
-                "P  | | | | | | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  |d|d|d| | | | | |  N\n" +
-                "O  |d|d|d| | | | | |  O\n" +
-                "P  |b|b|b|b| | | | |  P\n" +
-                "Q  | | | | | | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  |d|d|d| | | | | |  N\n" +
-                "O  |d|d|d| | | | | |  O\n" +
-                "P  |b|b|b|b| | | | |  P\n" +
-                "Q  |b|b|b|b| | | | |  Q\n" +
-                "R  | | | | | | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  |d|d|d| | | | | |  N\n" +
-                "O  |d|d|d| | | | | |  O\n" +
-                "P  |b|b|b|b| | | | |  P\n" +
-                "Q  |b|b|b|b| | | | |  Q\n" +
-                "R  |b|b|b|b| | | | |  R\n" +
-                "S  | | | | | | | | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  |d|d|d| | | | | |  N\n" +
-                "O  |d|d|d| | | | | |  O\n" +
-                "P  |b|b|b|b| | | | |  P\n" +
-                "Q  |b|b|b|b| | | | |  Q\n" +
-                "R  |b|b|b|b| | | | |  R\n" +
-                "S  |c|c|c|c|c|c| | |  S\n" +
-                "T  | | | | | | | | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "Player B where would you like to put your ship?\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n" +
-                "A  | | | | | | | | |  A\n" +
-                "B  | | | | | | | | |  B\n" +
-                "C  | | | | | | | | |  C\n" +
-                "D  | | | | | | | | |  D\n" +
-                "E  | | | | | | | | |  E\n" +
-                "F  | | | | | | | | |  F\n" +
-                "G  | | | | | | | | |  G\n" +
-                "H  | | | | | | | | |  H\n" +
-                "I  | | | | | | | | |  I\n" +
-                "J  | | | | | | | | |  J\n" +
-                "K  |s|s| | | | | | |  K\n" +
-                "L  |s|s| | | | | | |  L\n" +
-                "M  |d|d|d| | | | | |  M\n" +
-                "N  |d|d|d| | | | | |  N\n" +
-                "O  |d|d|d| | | | | |  O\n" +
-                "P  |b|b|b|b| | | | |  P\n" +
-                "Q  |b|b|b|b| | | | |  Q\n" +
-                "R  |b|b|b|b| | | | |  R\n" +
-                "S  |c|c|c|c|c|c| | |  S\n" +
-                "T  |c|c|c|c|c|c| | |  T\n" +
-                "  0|1|2|3|4|5|6|7|8|9\n";
-
-        TextPlayer player1 = createTextPlayer("A", 10, 20, inputData1, bytes);
-        TextPlayer player2 = createTextPlayer("B", 10, 20, inputData2, bytes);
-        player1.doPlacementPhase();
-        player2.doPlacementPhase();
-        // Should have equal printed board
-        // TODO: check below is correct
-        assertEquals(expectedOutput, expectedOutput);
+        TextPlayer player1 = new TextPlayer("A", board, input, output, shipFactory);
+        TextPlayer player2 = createTextPlayer("AI", 10, 20, "", bytes);
+        TextPlayer player3 = new TextPlayer("AI", board, input, output, shipFactory);
+        player2.aiGenerateCoordinate();
+        player3.aiGeneratePlacement(0);
+        player3.aiGeneratePlacement(1);
+        // These are to test the random number, so a large amount of test is needed
+        // The possibility of passing the test by once is low.
+        player3.aiGenerateChoice(new int[]{0, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{1, 0});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{0, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
+        player3.aiGenerateChoice(new int[]{1, 1});
     }
 
     /**
@@ -658,16 +153,16 @@ public class TextPlayerTest {
         TextPlayer player1 = new TextPlayer("A", board, input, output, shipFactory);
 
         player1.doOnePlacement("Submarine", (p) -> player1.shipFactory.makeSubmarine(p));
-        assertEquals(false, player1.isGameEnds());
+        assertEquals(false, player1.isGameEnds(board));
 
         board.fireAt(new Coordinate(0, 0));
         board.fireAt(new Coordinate(0, 1));
 
-        assertEquals(true, player1.isGameEnds());
+        assertEquals(true, player1.isGameEnds(board));
     }
 
     @Test
-    public void test_read_and_fire() throws IOException  {
+    public void test_read_and_fire() throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
         BufferedReader input = new BufferedReader(new StringReader("a0h\na0\na1\n"));
@@ -676,28 +171,126 @@ public class TextPlayerTest {
 
         TextPlayer player2 = new TextPlayer("A", board, input, output, shipFactory);
         player2.doOnePlacement("Submarine", (p) -> player2.shipFactory.makeSubmarine(p));
-        assertEquals(false, player2.isGameEnds());
+        assertEquals(false, player2.isGameEnds(board));
 
         player2.readAndFire(board);
         player2.readAndFire(board);
 
-        assertEquals(true, player2.isGameEnds());
+        assertEquals(true, player2.isGameEnds(board));
+
+        input = new BufferedReader(new StringReader(""));
+        TextPlayer player3 = new TextPlayer("A", board, input, output, shipFactory);
+        assertThrows(IOException.class, () -> player3.readAndFire(board));
     }
 
     @Test
-    public void test_play_one_turn() throws IOException {
+    public void test_read_and_move() throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        BufferedReader input = new BufferedReader(new StringReader("a0h\na0\na1\n"));
+        BufferedReader input = new BufferedReader(new StringReader("kk"));
+        V1ShipFactory shipFactory = new V1ShipFactory();
+        Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
+
+        TextPlayer player2 = new TextPlayer("A", board, input, output, shipFactory);
+
+        assertThrows(IOException.class, () -> player2.readAndMove(board));
+
+        input = new BufferedReader(new StringReader("A0H\nA0"));
+        TextPlayer player3 = new TextPlayer("A", board, input, output, shipFactory);
+        player3.doOnePlacement("Submarine", (p) -> player3.shipFactory.makeSubmarine(p));
+
+        assertThrows(IOException.class, () -> player3.readAndMove(board));
+
+        Board<Character> board2 = new BattleShipBoard<Character>(4, 2, 'X');
+        input = new BufferedReader(new StringReader("A0H\nA0\nB0U"));
+        TextPlayer player4 = new TextPlayer("A", board2, input, output, shipFactory);
+        player4.doOnePlacement("Submarine", (p) -> player2.shipFactory.makeSubmarine(p));
+
+        assertThrows(IOException.class, () -> player4.readAndMove(board2));
+
+        Board<Character> board3 = new BattleShipBoard<Character>(4, 2, 'X');
+        input = new BufferedReader(new StringReader("A0H\nA0\nB12U"));
+        TextPlayer player5 = new TextPlayer("A", board3, input, output, shipFactory);
+        player5.doOnePlacement("Submarine", (p) -> player2.shipFactory.makeSubmarine(p));
+
+        assertThrows(IOException.class, () -> player5.readAndMove(board3));
+
+        Board<Character> board4 = new BattleShipBoard<Character>(4, 2, 'X');
+        input = new BufferedReader(new StringReader("A0H\nA0\nB9H"));
+        TextPlayer player6 = new TextPlayer("A", board4, input, output, shipFactory);
+        player6.doOnePlacement("Submarine", (p) -> player2.shipFactory.makeSubmarine(p));
+
+        assertEquals(false, player6.readAndMove(board4));
+    }
+
+    @Test
+    public void test_read_and_scan1() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        BufferedReader input = new BufferedReader(new StringReader(""));
+        V1ShipFactory shipFactory = new V1ShipFactory();
+        Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
+
+        TextPlayer player2 = new TextPlayer("A", board, input, output, shipFactory);
+
+        assertThrows(IOException.class, () -> player2.readAndScan(board));
+    }
+
+    @Test
+    public void test_read_and_scan2() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        BufferedReader input = new BufferedReader(new StringReader(""));
+        V1ShipFactory shipFactory = new V1ShipFactory();
+        Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
+
+        TextPlayer player2 = new TextPlayer("A", board, input, output, shipFactory);
+
+        assertThrows(IOException.class, () -> player2.readAndScan(board));
+    }
+
+    @Test
+    public void test_play_one_turn1() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        BufferedReader input = new BufferedReader(new StringReader("a0h\na0\na1\nf\na0\n"));
         V1ShipFactory shipFactory = new V1ShipFactory();
         Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
         BoardTextView view = new BoardTextView(board);
 
         TextPlayer player1 = new TextPlayer("A", board, input, output, shipFactory);
         player1.doOnePlacement("Submarine", (p) -> player1.shipFactory.makeSubmarine(p));
-        assertEquals(false, player1.playOneTurn(board, view, "A"));
-        assertEquals(true, player1.playOneTurn(board, view, "A"));
+        assertEquals(false, player1.playOneTurn(board, view, "A", new int[]{0, 0}));
+        assertEquals(true, player1.playOneTurn(board, view, "A", new int[]{0, 0}));
+        assertEquals(true, player1.playOneTurn(board, view, "A", new int[]{1, 0}));
+    }
+
+    @Test
+    public void test_play_one_turn2() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        BufferedReader input = new BufferedReader(new StringReader("a0h\ns\na2\na12\n"));
+        V1ShipFactory shipFactory = new V1ShipFactory();
+        Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
+        BoardTextView view = new BoardTextView(board);
+
+        TextPlayer player1 = new TextPlayer("A", board, input, output, shipFactory);
+        player1.doOnePlacement("Submarine", (p) -> player1.shipFactory.makeSubmarine(p));
+        assertEquals(false, player1.playOneTurn(board, view, "A", new int[]{1, 1}));
     }
 
 
+    @Test
+    public void test_play_one_turn3() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        BufferedReader input = new BufferedReader(new StringReader("a0h\ns\na0\na1\n"));
+        V1ShipFactory shipFactory = new V1ShipFactory();
+        Board<Character> board = new BattleShipBoard<Character>(4, 2, 'X');
+        BoardTextView view = new BoardTextView(board);
+
+        TextPlayer player1 = new TextPlayer("A", board, input, output, shipFactory);
+        player1.doOnePlacement("Submarine", (p) -> player1.shipFactory.makeSubmarine(p));
+        assertEquals(false, player1.playOneTurn(board, view, "A", new int[]{0, 1}));
+    }
 }

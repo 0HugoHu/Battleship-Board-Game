@@ -27,5 +27,4 @@ public class V1ShipFactoryTest {
         }
         assertEquals(testShip.getName(), expectedName);
     }
-
 }

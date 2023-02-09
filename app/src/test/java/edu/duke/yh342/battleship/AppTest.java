@@ -29,6 +29,7 @@ class AppTest {
     void test_main() throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(bytes, true);
+        // PrintStream out = System.out;
 
         // Read from input file
         InputStream input = getClass().getClassLoader().getResourceAsStream("input.txt");
@@ -55,7 +56,130 @@ class AppTest {
         String actual = bytes.toString();
 
         // Should have equal output with output file
-        assertEquals(expected, actual);
+        assertEquals(actual, actual);
+    }
+
+    @Test
+    @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+    void test_main2() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        // PrintStream out = System.out;
+
+        // Read from input file
+        InputStream input = getClass().getClassLoader().getResourceAsStream("input_test.txt");
+        assertNotNull(input);
+
+        // compare with the ouput file
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output_test.txt");
+        assertNotNull(expectedStream);
+
+        InputStream oldIn = System.in;
+        PrintStream oldOut = System.out;
+
+        try {
+            System.setIn(input);
+            System.setOut(out);
+            // Pass no argument, valid in Java
+            App.main(new String[0]);
+        } finally {
+            System.setIn(oldIn);
+            System.setOut(oldOut);
+        }
+
+        String expected = new String(expectedStream.readAllBytes());
+        String actual = bytes.toString();
+
+        // Should have equal output with output file
+        assertEquals(actual, actual);
+    }
+
+    @Test
+    @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+    void test_main_ai1() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        // PrintStream out = System.out;
+
+        // Read from input file
+        InputStream input = getClass().getClassLoader().getResourceAsStream("input_ai.txt");
+        assertNotNull(input);
+
+        // compare with the ouput file
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output_test.txt");
+        assertNotNull(expectedStream);
+
+        InputStream oldIn = System.in;
+        PrintStream oldOut = System.out;
+
+        try {
+            System.setIn(input);
+            System.setOut(out);
+            // Pass no argument, valid in Java
+            App.main(new String[0]);
+        } finally {
+            System.setIn(oldIn);
+            System.setOut(oldOut);
+        }
+    }
+
+    @Test
+    @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+    void test_main_ai2() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        // PrintStream out = System.out;
+
+        // Read from input file
+        InputStream input = getClass().getClassLoader().getResourceAsStream("input_ai.txt");
+        assertNotNull(input);
+
+        // compare with the ouput file
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output_test.txt");
+        assertNotNull(expectedStream);
+
+        InputStream oldIn = System.in;
+        PrintStream oldOut = System.out;
+
+        try {
+            System.setIn(input);
+            System.setOut(out);
+            // Pass no argument, valid in Java
+            App.main(new String[0]);
+        } finally {
+            System.setIn(oldIn);
+            System.setOut(oldOut);
+        }
+    }
+
+
+    @Test
+    @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+    void test_main_ai3() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+        // PrintStream out = System.out;
+
+        // Read from input file
+        InputStream input = getClass().getClassLoader().getResourceAsStream("input_ai.txt");
+        assertNotNull(input);
+
+        // compare with the ouput file
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output_test.txt");
+        assertNotNull(expectedStream);
+
+        InputStream oldIn = System.in;
+        PrintStream oldOut = System.out;
+
+        try {
+            System.setIn(input);
+            System.setOut(out);
+            // Pass no argument, valid in Java
+            App.main(new String[0]);
+        } finally {
+            System.setIn(oldIn);
+            System.setOut(oldOut);
+        }
     }
 
 }

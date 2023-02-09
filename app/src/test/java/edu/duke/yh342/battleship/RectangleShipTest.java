@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 public class RectangleShipTest {
     @Test
     public void test_make_coords() {
-        Coordinate c = new Coordinate(10, 20);
-        assertThrows(IllegalArgumentException.class, () -> RectangleShip.makeCoords(c, 0, 1));
-        assertThrows(IllegalArgumentException.class, () -> RectangleShip.makeCoords(c, 5, 0));
+        Placement p = new Placement(new Coordinate(10, 20), 'v');
+        assertThrows(IllegalArgumentException.class, () -> RectangleShip.makeCoords(p, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> RectangleShip.makeCoords(p, 5, 0));
 
-        HashSet<Coordinate> coord = RectangleShip.makeCoords(c, 1, 3);
+        HashSet<Coordinate> coord = RectangleShip.makeCoords(p, 1, 3);
         assertEquals(true, coord.contains(new Coordinate(10, 20)));
         assertEquals(true, coord.contains(new Coordinate(11, 20)));
         assertEquals(true, coord.contains(new Coordinate(12, 20)));
@@ -52,47 +52,67 @@ public class RectangleShipTest {
 
     @Test
     public void test_sunk() {
-        Coordinate c1 = new Coordinate(10, 20);
-        Coordinate c2 = new Coordinate(10, 21);
-        RectangleShip r = new RectangleShip("testship", c1, 2, 1, 's', '*');
+        Placement p1 = new Placement(new Coordinate(10, 20), 'v');
+        Placement p2 = new Placement(new Coordinate(10, 21), 'v');
+        RectangleShip r = new RectangleShip("testship", p1, 2, 1, 's', '*');
         assertEquals(false, r.isSunk());
-        r.recordHitAt(c1);
+        r.recordHitAt(p1.getCoordinate());
         assertEquals(false, r.isSunk());
-        r.recordHitAt(c2);
+        r.recordHitAt(p2.getCoordinate());
         assertEquals(true, r.isSunk());
     }
 
     @Test
     public void test_display_info() {
-        Coordinate c1 = new Coordinate(10, 20);
-        Coordinate c2 = new Coordinate(10, 21);
-        Coordinate c3 = new Coordinate(11, 21);
-        RectangleShip<Character> r = new RectangleShip<>("testship", c1, 2, 1, 's', '*');
-        assertThrows(IllegalArgumentException.class, () -> r.getDisplayInfoAt(c3, true));
-        r.recordHitAt(c1);
-        assertEquals(r.getDisplayInfoAt(c1, true), '*');
-        assertEquals(r.getDisplayInfoAt(c2, true), 's');
-        assertEquals(r.getDisplayInfoAt(c1, false), 's');
-        assertNull(r.getDisplayInfoAt(c2, false));
+        Placement p1 = new Placement(new Coordinate(10, 20), 'v');
+        Placement p2 = new Placement(new Coordinate(10, 21), 'v');
+        Placement p3 = new Placement(new Coordinate(11, 21), 'v');
+        RectangleShip<Character> r = new RectangleShip<>("testship", p1, 2, 1, 's', '*');
+        assertThrows(IllegalArgumentException.class, () -> r.getDisplayInfoAt(p3.getCoordinate(), true));
+        r.recordHitAt(p1.getCoordinate());
+        assertEquals(r.getDisplayInfoAt(p1.getCoordinate(), true), '*');
+        assertEquals(r.getDisplayInfoAt(p2.getCoordinate(), true), 's');
+        assertEquals(r.getDisplayInfoAt(p1.getCoordinate(), false), 's');
+        assertNull(r.getDisplayInfoAt(p2.getCoordinate(), false));
     }
 
     @Test
     public void test_get_name() {
-        Coordinate c1 = new Coordinate(10, 20);
-        RectangleShip<Character> r = new RectangleShip<>(c1, 's', '*');
+        Placement p1 = new Placement(new Coordinate(10, 20), 'v');
+        RectangleShip<Character> r = new RectangleShip<>(p1.getCoordinate(), 's', '*');
         assertEquals(r.getName(), "testship");
     }
 
     @Test
     public void test_get_coordinates() {
-        Coordinate c1 = new Coordinate(10, 20);
+        Placement p1 = new Placement(new Coordinate(10, 20), 'v');
         HashSet<Coordinate> hashset = new HashSet<>();
-        hashset.add(c1);
+        hashset.add(p1.getCoordinate());
         hashset.add(new Coordinate(10, 21));
-        RectangleShip<Character> r = new RectangleShip<>("testship", c1, 2, 1, 's', '*');
+        RectangleShip<Character> r = new RectangleShip<>("testship", p1, 2, 1, 's', '*');
         for (Coordinate c : r.getCoordinates()) {
             assertEquals(true, hashset.contains(c));
         }
+    }
+
+    @Test
+    public void test_get_orientation() {
+        RectangleShip<Character> r = new RectangleShip<>("testship", new Placement("A0V"), 1, 1, 's', '*');
+        assertEquals(r.getOrientation(), 'V');
+    }
+
+    @Test
+    public void test_add_coordinate() {
+        ShapedShip<Character> r = new ShapedShip<>("testship", new Placement("A0V"), 1, 1, 's', '*');
+        r.addCoordinate(new Coordinate(1, 0), true);
+        assertEquals(true, r.occupiesCoordinates(new Coordinate(1, 0)));
+    }
+
+    @Test
+    public void test_remove_coordinate() {
+        ShapedShip<Character> r = new ShapedShip<>("testship", new Placement("A0V"), 1, 1, 's', '*');
+        r.removeCoordinate();
+        assertEquals(false, r.occupiesCoordinates(new Coordinate(0, 0)));
     }
 
 }

@@ -48,7 +48,7 @@ public interface Ship<T> {
      * Return the view-specific information at the given coordinate. This coordinate
      * must be part of the ship.
      *
-     * @param where is the coordinate to return information for
+     * @param where  is the coordinate to return information for
      * @param myShip is to display own perspective
      * @return The view-specific information at that coordinate.
      * @throws IllegalArgumentException if where is not part of the Ship
@@ -71,7 +71,7 @@ public interface Ship<T> {
 
     /*
      * Add new coordinate to the ship
-     * 
+     *
      * @param c is the coordinate to add
      * @param hit is whether the coordinate is hit
      */
@@ -79,14 +79,21 @@ public interface Ship<T> {
 
     /*
      * Remove all coordinates from the ship
-     * 
+     *
      */
     public void removeCoordinate();
 
     /*
      * Get the orientation of the ship
-     * 
+     *
      * @return the orientation of the ship
      */
     public char getOrientation();
+
+    /*
+     * Set the orientation of the ship after orientation
+     *
+     * @param c is the orientation to set
+     */
+    public void setOrientation(char c);
 }

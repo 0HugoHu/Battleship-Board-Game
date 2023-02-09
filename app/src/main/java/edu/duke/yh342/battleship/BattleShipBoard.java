@@ -15,7 +15,7 @@ public class BattleShipBoard<T> implements Board<T> {
     HashSet<Coordinate> enemyMisses;
     // Coordiantes that are hit but after move, not shown to enemy
     HashSet<Coordinate> notShownPieces;
-    // Coordinates that are hit by enemy, even moved, but still shown to enemy
+    // Coordinates that are hit by enemy, even moved, the original hit point is still shown to enemy
     HashMap<Coordinate, T> enemyHits;
     final T missInfo;
 
@@ -132,7 +132,6 @@ public class BattleShipBoard<T> implements Board<T> {
         }
         for (Ship<T> s: myShips) {
             if (s.occupiesCoordinates(where)){
-                // System.out.print(where.toString() + "\n");
                 return s.getDisplayInfoAt(where, isSelf);
             }
         }
@@ -239,6 +238,7 @@ public class BattleShipBoard<T> implements Board<T> {
             for (Coordinate c : s.getCoordinates()) {
                 toMove.addCoordinate(c, s.wasHitAt(c));
             }
+            toMove.setOrientation(s.getOrientation());
             ownBoard.tryAddShip(toMove);
             return true;
         } else {
@@ -284,12 +284,13 @@ public class BattleShipBoard<T> implements Board<T> {
             if (from.wasHitAt(oldCoord)) {
                 int col = oldCoord.getColumn() - baseOldCol;
                 int row = oldCoord.getRow() - baseOldRow;
+
                 // Transfer this coordinate
                 Coordinate newHitPoint = new Coordinate(0, 0);
                 
                 // Exactly the same orientation
                 if (oldOrient == newOrient){
-                    newHitPoint = oldCoord;
+                    newHitPoint = new Coordinate(baseNewRow + row, baseNewCol + col);
                 }
                 // Basic H and V orientations
                 /*
@@ -406,6 +407,7 @@ public class BattleShipBoard<T> implements Board<T> {
                     }
                 }
                 to.addCoordinate(newHitPoint, true);
+                to.setOrientation(newOrient);
                 if (this.notShownPieces.contains(oldCoord)) {
                     this.notShownPieces.remove(oldCoord);
                 }
@@ -465,8 +467,6 @@ public class BattleShipBoard<T> implements Board<T> {
                     break;
                 case 'c':
                     result[3]++;
-                    break;
-                default:
                     break;
             }
         }

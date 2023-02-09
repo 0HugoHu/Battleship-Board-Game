@@ -69,14 +69,18 @@ public class BoardTextView {
      *
      * @return String of board display function
      */
-    public String displayMyOwnBoard() { return displayAnyBoard((c) -> toDisplay.whatIsAtForSelf(c)); }
+    public String displayMyOwnBoard() {
+        return displayAnyBoard((c) -> toDisplay.whatIsAtForSelf(c));
+    }
 
     /**
      * Lambda function for displayAnyBoard
      *
      * @return String of board display function
      */
-    public String displayEnemyBoard() { return displayAnyBoard((c) -> toDisplay.whatIsAtForEnemy(c)); }
+    public String displayEnemyBoard() {
+        return displayAnyBoard((c) -> toDisplay.whatIsAtForEnemy(c));
+    }
 
     /**
      * This makes the header line, e.g. 0|1|2|3|4\n
@@ -98,8 +102,8 @@ public class BoardTextView {
     /**
      * This displays the board with the enemy's board next to it.
      *
-     * @param enemyView is the BoardTextView for the enemy's board
-     * @param myHeader is the header for the player's board
+     * @param enemyView   is the BoardTextView for the enemy's board
+     * @param myHeader    is the header for the player's board
      * @param enemyHeader is the header for the enemy's board
      * @return the String that is the display of the two boards
      */
@@ -115,8 +119,8 @@ public class BoardTextView {
         String[] ownViewLines = this.displayMyOwnBoard().split("\n");
         String[] otherViewLines = enemyView.displayEnemyBoard().split("\n");
 
-        for(int i = 0; i < ownViewLines.length; i++){
-            if (i == 0 || i == ownViewLines.length - 1){
+        for (int i = 0; i < ownViewLines.length; i++) {
+            if (i == 0 || i == ownViewLines.length - 1) {
                 ans.append(ownViewLines[i] + boardIntervals + "  " + otherViewLines[i] + "\n");
                 continue;
             }

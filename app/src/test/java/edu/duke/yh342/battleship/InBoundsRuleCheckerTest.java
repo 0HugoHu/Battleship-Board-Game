@@ -18,8 +18,6 @@ public class InBoundsRuleCheckerTest {
         Placement p8 = new Placement(new Coordinate(-1, 8), 'v');
         Placement p9 = new Placement(new Coordinate(0, -1), 'h');
 
-
-
         Ship<Character> s1 = v.makeCarrier(p1);
         Ship<Character> s2 = v.makeCarrier(p2);
         Ship<Character> s3 = v.makeCarrier(p3);
@@ -42,7 +40,6 @@ public class InBoundsRuleCheckerTest {
         assertEquals(checker.checkPlacement(s7, b), "That placement is invalid: the ship goes off the right of the board.");
         assertEquals(checker.checkPlacement(s8, b), "That placement is invalid: the ship goes off the top of the board.");
         assertEquals(checker.checkPlacement(s9, b), "That placement is invalid: the ship goes off the left of the board.");
-
     }
 
 }

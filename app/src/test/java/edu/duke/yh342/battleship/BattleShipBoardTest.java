@@ -77,13 +77,33 @@ public class BattleShipBoardTest {
     }
 
     @Test
-    public void test_fire_at() {
+    public void test_fire_at_and_move_ship_to() {
         BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
         V1ShipFactory v1 = new V1ShipFactory();
         Placement p1 = new Placement("E5H");
+        Placement p1_1 = new Placement("E5V");
+        Placement p2 = new Placement("E5U");
+        Placement p3 = new Placement("E8U");
         Ship<Character> s1 = v1.makeSubmarine(p1);
+        Ship<Character> s2 = v1.makeDestroyer(p1);
+        Ship<Character> s3 = v1.makeCarrier(p1);
+        Ship<Character> s4 = v1.makeBattleship(p1);
+
         b1.tryAddShip(s1);
 
+
+        b1.getShipAt(new Coordinate(4, 5));
+        b1.getShipAt(new Coordinate(5, 5));
+
+        b1.moveShipTo(s1, p1, b1);
+        b1.moveShipTo(s1, p1_1, b1);
+        b1.moveShipTo(s2, p1, b1);
+        b1.moveShipTo(s3, p2, b1);
+        b1.moveShipTo(s3, p3, b1);
+        b1.moveShipTo(s4, p2, b1);
+
+        b1.enemyMisses.add(new Coordinate(4, 5));
+        b1.notShownPieces.add(new Coordinate(4, 5));
         assertNull(b1.fireAt(new Coordinate(0, 0)));
         assertSame(b1.fireAt(new Coordinate(4, 5)), s1);
 
@@ -103,6 +123,231 @@ public class BattleShipBoardTest {
         b1.fireAt(c1);
         assertEquals(b1.whatIsAtForEnemy(new Coordinate(8, 0)), 'X');
         assertNull(b1.whatIsAtForEnemy(new Coordinate(9, 0)));
+        b1.enemyHits.put(new Coordinate(4, 7), 'b');
+        assertEquals(b1.whatIsAtForEnemy(new Coordinate(4, 7)), 'b');
+        b1.notShownPieces.add(new Coordinate(4, 5));
+        assertNull(b1.whatIsAtForEnemy(new Coordinate(4, 5)));
+        b1.enemyMisses.add(new Coordinate(4, 6));
+        assertEquals(b1.whatIsAtForEnemy(new Coordinate(4, 6)), 'X');
+    }
+
+    @Test
+    public void test_transfer_hit_points() {
+        BattleShipBoard<Character> b1 = new BattleShipBoard<>(10, 20, 'X');
+        V2ShipFactory f = new V2ShipFactory();
+        Ship<Character> s1 = f.makeDestroyer(new Placement("A0H"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        Ship<Character> s2 = f.makeDestroyer(new Placement("D0H"));
+        b1.transferHitPoints(s1, s2);
+
+        s2 = f.makeDestroyer(new Placement("D0v"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeDestroyer(new Placement("A0v"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        s2 = f.makeDestroyer(new Placement("D0h"));
+        b1.transferHitPoints(s1, s2);
+
+        // Battleship u
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0u"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0r"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0u"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0d"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0u"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0l"));
+        b1.transferHitPoints(s1, s2);
+
+        // Battleship r
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0r"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0d"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0r"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0l"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0r"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0u"));
+        b1.transferHitPoints(s1, s2);
+
+        // Battleship d
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0d"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        s2 = f.makeBattleship(new Placement("m0l"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0d"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        s2 = f.makeBattleship(new Placement("m0u"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0d"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        s2 = f.makeBattleship(new Placement("m0r"));
+        b1.transferHitPoints(s1, s2);
+
+        // Battleship l
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0l"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0u"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0l"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0r"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeBattleship(new Placement("a0l"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeBattleship(new Placement("m0d"));
+        b1.transferHitPoints(s1, s2);
+
+
+        // Carrier u
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0u"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0r"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0u"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0d"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0u"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0l"));
+        b1.transferHitPoints(s1, s2);
+
+        // Carrier r
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0r"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0d"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0r"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0l"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0r"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0u"));
+        b1.transferHitPoints(s1, s2);
+
+        // Carrier d
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0d"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        s2 = f.makeCarrier(new Placement("m0l"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0d"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        s2 = f.makeCarrier(new Placement("m0u"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0d"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(0, 0));
+        s2 = f.makeCarrier(new Placement("m0r"));
+        b1.transferHitPoints(s1, s2);
+
+        // Carrier l
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0l"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0u"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0l"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0r"));
+        b1.transferHitPoints(s1, s2);
+
+        b1 = new BattleShipBoard<>(10, 20, 'X');
+        s1 = f.makeCarrier(new Placement("a0l"));
+        b1.tryAddShip(s1);
+        b1.fireAt(new Coordinate(1, 0));
+        s2 = f.makeCarrier(new Placement("m0d"));
+        b1.notShownPieces.add(new Coordinate(1, 0));
+        b1.transferHitPoints(s1, s2);
+    }
+
+    @Test
+    public void test_sonar_scan() {
+        BattleShipBoard<Character> b1 = new BattleShipBoard<>(10, 20, 'X');
+        V2ShipFactory f = new V2ShipFactory();
+        Ship<Character> s1 = f.makeDestroyer(new Placement("A0H"));
+        Ship<Character> s2 = f.makeCarrier(new Placement("D1R"));
+        Ship<Character> s3 = f.makeBattleship(new Placement("B0R"));
+        Ship<Character> s4 = f.makeSubmarine(new Placement("B1H"));
+        b1.tryAddShip(s1);
+        b1.tryAddShip(s2);
+        b1.tryAddShip(s3);
+        b1.tryAddShip(s4);
+
+        assertEquals(b1.sonarScan(new Coordinate(2, 2), b1)[0], 2);
+        assertEquals(b1.sonarScan(new Coordinate(2, 2), b1)[1], 2);
+        assertEquals(b1.sonarScan(new Coordinate(2, 2), b1)[2], 4);
+        assertEquals(b1.sonarScan(new Coordinate(2, 2), b1)[3], 6);
     }
 
 }
